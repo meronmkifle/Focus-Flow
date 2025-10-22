@@ -193,6 +193,84 @@ body {
     font-weight:600;
 }
 
+/* Volume Controls Section */
+.volume-controls {
+    margin-top:25px;
+    padding:20px;
+    background:rgba(102,126,234,0.1);
+    border-radius:15px;
+}
+
+.volume-controls h3 {
+    font-size:1.1em;
+    color:#333;
+    margin-bottom:15px;
+    text-align:center;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+}
+
+.volume-sliders {
+    display:flex;
+    flex-direction:column;
+    gap:15px;
+}
+
+.volume-slider-group {
+    display:flex;
+    align-items:center;
+    gap:15px;
+}
+
+.volume-slider-group label {
+    font-size:0.9em;
+    color:#555;
+    font-weight:600;
+    width:120px;
+}
+
+.volume-slider {
+    flex:1;
+    height:6px;
+    -webkit-appearance:none;
+    appearance:none;
+    background:linear-gradient(90deg, #e0e0e0 0%, #667eea 100%);
+    border-radius:10px;
+    outline:none;
+    cursor:pointer;
+}
+
+.volume-slider::-webkit-slider-thumb {
+    -webkit-appearance:none;
+    appearance:none;
+    width:20px;
+    height:20px;
+    background:linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius:50%;
+    cursor:pointer;
+    box-shadow:0 2px 5px rgba(0,0,0,0.2);
+}
+
+.volume-slider::-moz-range-thumb {
+    width:20px;
+    height:20px;
+    background:linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius:50%;
+    cursor:pointer;
+    border:none;
+    box-shadow:0 2px 5px rgba(0,0,0,0.2);
+}
+
+.volume-value {
+    font-size:0.9em;
+    color:#667eea;
+    font-weight:700;
+    width:40px;
+    text-align:center;
+}
+
 /* Todo Section */
 .todo-section {
     display:flex;
@@ -293,13 +371,17 @@ body {
 }
 
 .todo-item.completed {
-    opacity:0.6;
-    background:#f5f5f5;
+    opacity:0.7;
+}
+
+.todo-item.completed .todo-text {
+    text-decoration:line-through;
+    color:#999;
 }
 
 .todo-checkbox {
-    width:25px;
-    height:25px;
+    width:24px;
+    height:24px;
     cursor:pointer;
     accent-color:#667eea;
 }
@@ -309,11 +391,6 @@ body {
     font-size:1em;
     color:#333;
     word-break:break-word;
-}
-
-.todo-item.completed .todo-text {
-    text-decoration:line-through;
-    color:#999;
 }
 
 .todo-actions {
@@ -327,30 +404,41 @@ body {
     font-size:1.2em;
     cursor:pointer;
     padding:5px;
-    transition:all 0.3s ease;
-    border-radius:5px;
+    border-radius:8px;
+    transition:all 0.2s ease;
 }
 
 .btn-icon:hover {
-    background:rgba(0,0,0,0.05);
-    transform:scale(1.2);
+    background:rgba(102,126,234,0.1);
+    transform:scale(1.1);
 }
 
-.btn-delete {
-    color:#f5576c;
+/* Celebration */
+.celebration {
+    position:fixed;
+    top:50%;
+    left:50%;
+    transform:translate(-50%, -50%);
+    font-size:8em;
+    z-index:1000;
+    animation:celebrate 1s ease;
+    pointer-events:none;
 }
 
-.btn-edit {
-    color:#667eea;
+@keyframes celebrate {
+    0% {transform:translate(-50%, -50%) scale(0) rotate(0deg);opacity:0;}
+    50% {transform:translate(-50%, -50%) scale(1.2) rotate(180deg);opacity:1;}
+    100% {transform:translate(-50%, -50%) scale(1) rotate(360deg);opacity:0;}
 }
 
+/* Stats */
 .stats {
-    margin-top:20px;
     display:flex;
     justify-content:space-around;
+    gap:20px;
     padding:20px;
-    background:linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-    border-radius:15px;
+    background:linear-gradient(135deg, rgba(102,126,234,0.1) 0%, rgba(118,75,162,0.1) 100%);
+    border-radius:20px;
 }
 
 .stat-item {
@@ -358,7 +446,7 @@ body {
 }
 
 .stat-value {
-    font-size:2em;
+    font-size:2.5em;
     font-weight:700;
     background:linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     -webkit-background-clip:text;
@@ -371,35 +459,8 @@ body {
     margin-top:5px;
 }
 
-.celebration {
-    position:fixed;
-    top:50%;
-    left:50%;
-    transform:translate(-50%, -50%);
-    font-size:5em;
-    animation:celebrate 1s ease-out;
-    pointer-events:none;
-    z-index:1000;
-}
-
-@keyframes celebrate {
-    0% {transform:translate(-50%, -50%) scale(0) rotate(0deg);opacity:1;}
-    50% {transform:translate(-50%, -50%) scale(1.5) rotate(180deg);opacity:1;}
-    100% {transform:translate(-50%, -50%) scale(1) rotate(360deg);opacity:0;}
-}
-
-.progress-ring {
-    position:absolute;
-    top:50%;
-    left:50%;
-    transform:translate(-50%, -50%);
-}
-
-.progress-ring-circle {
-    transition:stroke-dashoffset 1s linear;
-}
-
-@media (max-width:768px) {
+/* Responsive */
+@media (max-width: 768px) {
     .main-layout {
         grid-template-columns:1fr;
     }
@@ -416,48 +477,43 @@ body {
     .timer-display {
         font-size:3em;
     }
-    
-    .header h1 {
-        font-size:2em;
-    }
 }
 </style>
 </head>
 <body>
 
-<!-- Floating Emojis -->
-<div class="floating-emoji" style="top:10%;left:10%;animation-delay:0s;">🎯</div>
-<div class="floating-emoji" style="top:20%;left:80%;animation-delay:2s;">⏰</div>
-<div class="floating-emoji" style="top:70%;left:15%;animation-delay:4s;">💪</div>
-<div class="floating-emoji" style="top:60%;left:85%;animation-delay:6s;">🚀</div>
-<div class="floating-emoji" style="top:40%;left:5%;animation-delay:8s;">✨</div>
-<div class="floating-emoji" style="top:80%;left:70%;animation-delay:10s;">🔥</div>
-<div class="floating-emoji" style="top:15%;left:50%;animation-delay:12s;">💡</div>
+<!-- Floating emojis -->
+<div class="floating-emoji" style="left:10%;top:20%;">⏰</div>
+<div class="floating-emoji" style="left:80%;top:30%;animation-delay:-5s;">✅</div>
+<div class="floating-emoji" style="left:15%;top:70%;animation-delay:-10s;">🎯</div>
+<div class="floating-emoji" style="left:85%;top:60%;animation-delay:-3s;">📝</div>
+<div class="floating-emoji" style="left:50%;top:10%;animation-delay:-7s;">🚀</div>
 
 <div class="container">
     <div class="header">
-        <h1>⏱️ Focus Flow</h1>
-        <p>Stay focused, get things done, celebrate progress</p>
+        <h1>⏰ Focus Flow</h1>
+        <p>Stay productive with the Pomodoro Technique</p>
     </div>
 
     <div class="main-layout">
         <!-- Timer Section -->
         <div class="timer-section">
             <div class="timer-circle" id="timerCircle">
-                <svg class="progress-ring" width="280" height="280">
-                    <circle class="progress-ring-circle" stroke="rgba(255,255,255,0.3)" stroke-width="8" fill="transparent" r="130" cx="140" cy="140"/>
-                    <circle id="progressCircle" class="progress-ring-circle" stroke="white" stroke-width="8" fill="transparent" r="130" cx="140" cy="140" 
-                        style="stroke-dasharray:817;stroke-dashoffset:817;transform:rotate(-90deg);transform-origin:50% 50%;"/>
+                <svg style="position:absolute;width:100%;height:100%;transform:rotate(-90deg);">
+                    <circle cx="140" cy="140" r="130" stroke="rgba(255,255,255,0.2)" stroke-width="8" fill="none" />
+                    <circle id="progressCircle" cx="140" cy="140" r="130" stroke="white" stroke-width="8" fill="none" 
+                        stroke-dasharray="816.81" stroke-dashoffset="816.81" stroke-linecap="round" 
+                        style="transition: stroke-dashoffset 1s linear;" />
                 </svg>
                 <div class="timer-display" id="timerDisplay">25:00</div>
                 <div class="timer-label" id="timerLabel">FOCUS TIME</div>
             </div>
-
+            
             <div class="timer-controls">
                 <button class="btn btn-start" id="startBtn" onclick="toggleTimer()">Start</button>
                 <button class="btn btn-reset" onclick="resetTimer()">Reset</button>
             </div>
-
+            
             <div class="settings">
                 <div class="setting-group">
                     <label>Focus (min)</label>
@@ -472,6 +528,28 @@ body {
                     <input type="number" id="longBreakTime" value="15" min="1" max="60">
                 </div>
             </div>
+
+            <!-- Volume Controls -->
+            <div class="volume-controls">
+                <h3>🔊 Sound Settings</h3>
+                <div class="volume-sliders">
+                    <div class="volume-slider-group">
+                        <label>Timer Start:</label>
+                        <input type="range" class="volume-slider" id="volumeTimerStart" min="0" max="100" value="70">
+                        <span class="volume-value" id="volumeTimerStartValue">70%</span>
+                    </div>
+                    <div class="volume-slider-group">
+                        <label>Timer Complete:</label>
+                        <input type="range" class="volume-slider" id="volumeTimerComplete" min="0" max="100" value="80">
+                        <span class="volume-value" id="volumeTimerCompleteValue">80%</span>
+                    </div>
+                    <div class="volume-slider-group">
+                        <label>Task Complete:</label>
+                        <input type="range" class="volume-slider" id="volumeTaskComplete" min="0" max="100" value="60">
+                        <span class="volume-value" id="volumeTaskCompleteValue">60%</span>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- Todo Section -->
@@ -480,20 +558,24 @@ body {
                 <span>📝</span>
                 <span>Today's Tasks</span>
             </div>
-
+            
             <div class="todo-input-group">
-                <input type="text" class="todo-input" id="todoInput" placeholder="What are you working on?" onkeypress="if(event.key==='Enter') addTodo()">
+                <input type="text" class="todo-input" id="todoInput" placeholder="Add a new task..." 
+                    onkeypress="if(event.key==='Enter')addTodo()">
                 <button class="btn-add" onclick="addTodo()">+ Add</button>
             </div>
-
-            <div class="todo-list" id="todoList"></div>
+            
+            <div class="todo-list" id="todoList">
+                <p style="text-align:center;color:#999;padding:40px 20px;">No tasks yet. Add one to get started! 🚀</p>
+            </div>
         </div>
     </div>
 
+    <!-- Stats -->
     <div class="stats">
         <div class="stat-item">
             <div class="stat-value" id="completedCount">0</div>
-            <div class="stat-label">Completed Today</div>
+            <div class="stat-label">Tasks Completed</div>
         </div>
         <div class="stat-item">
             <div class="stat-value" id="focusSessionsCount">0</div>
@@ -506,7 +588,15 @@ body {
     </div>
 </div>
 
-<audio id="completeSound" src="data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhBSuBzvLZiTYIG2m98OScTgwOUKni77RgGwU7k9n0yXkpBSh+zPLaizsKGGS66+ukUBELTKXh8bllHAU2jdXzzn0vBSGA0PLaiDYIHGq+8OSbTQwMTqfe8LZkHQU7k9j0yHgrBSh9y/HajDsKF2O56+yhTxAKSqPf8bllHAU1jNTzz3wwBSF/z/PaiDYIHGq+8OSbTQwMTqfe8LZkHQU7k9j0yHgrBSh9y/HajDsKF2O56+yhTxAKSqPf8bllHAU1jNTzz3wwBSF/z/PaiDYIHGq+8OSbTQwMTqfe8LZkHQU7k9j0yHgrBSh9y/HajDsKF2O56+yhTxAKSqPf8bllHAU1jNTzz3wwBSF/z/PaiDYIHGq+8OSbTQwMTqfe8LZkHQU7k9j0yHgrBSh9y/HajDsKF2O56+yhTxAKSqPf8bllHAU1jNTzz3wwBSF/z/PaiDYIHGq+8OSbTQwMTqfe8LZkHQU7k9j0yHgrBSh9y/HajDsKF2O56+yhTxAKSqPf8bllHAU1jNTzz3wwBSF/z/PaiDYIHGq+8OSbTQwMTqfe8LZkHQU7k9j0yHgrBSh9y/HajDsKF2O56+yhTxAKSqPf8bllHAU1jNTzz3wwBSF/z/PaiDYIHGq+8OSbTQwMTqfe8LZkHQU7k9j0yHgrBSh9y/HajDsKF2O56+yhTxAKSqPf8bllHAU1jNTzz3wwBSF/z/PaiDYIHGq+8OSbTQwMTqfe8LZkHQU7k9j0yHgrBSh9y/HajDsKF2O56+yhTxAKSqPf8bllHAU1jNTzz3wwBSF/z/PaiDYIHGq+8OSbTQwMTqfe8LZkHQU7k9j0yHgrBSh9y/HajDsKF2O56+yhTxAKSqPf8bllHAU1jNTzz3wwBSF/z/PaiDYIHGq+8OSbTQwMTqfe8LZkHQU7k9j0yHgrBSh9y/HajDsKF2O56+yhTxAKSqPf8bllHAU1jNTzz3wwBSF/z/PaiDYIHGq+8OSbTQwMTqfe8LZkHQU7k9j0yHgrBSh9y/HajDsKF2O56+yhTxAKSqPf8bllHAU1jNTzz3wwBSF/z/PaiDYIHGq+8OSbTQwMTqfe8LZkHQU7k9j0yHgrBSh9y/HajDsKF2O56+yhTxAKSqPf8bllHAU1jNTzz3wwBSF/z/PaiDYIHGq+8OSbTQwMTqfe8LZkHQU7k9j0yHgrBSh9y/HajDsKF2O56+yhTxAKSqPf8bllHAU1jNTzz3wwBSF/z/PaiDYIHGq+8OSbTQwMTqfe8LZkHQU7k9j0yHgrBSh9y/HajDsKF2O56+yhTxAKSqPf8bllHAU1jNTzz3wwBSF/z/PaiDYIHGq+8OSbTQwMTqfe8LZkHQU7k9j0yHgrBQ=="></audio>
+<!-- Audio Elements with Different Sounds -->
+<!-- Timer Start Sound: Gentle beep -->
+<audio id="timerStartSound" src="data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAAB/f39/f4B/gIB/gICAf4CAgICAgIB/gH9/gH+AgH+Af39/f39/gH+AgICAf4B/gH+Af4CAgH+Af4B/gH+Af4CAf4B/gH+Af4B/gH+AgICAf4B/gH+Af4CAf4B/f39/gH+Af4B/gIB/gH+AgICAf4B/gH+Af4B/gH+Af4B/gH+Af39/f39/f4B/gICAf4B/gH+Af4CAf4B/gH+Af4B/gH+Af4B/gH+Af4B/gH+Af4B/gH+Af4CAf4B/gH+Af4B/gH+Af4B/gH+Af4B/gH+Af4B/gH+Af39/f39/f4B/gH+AgH+Af4B/gH+Af4B/gH+Af4B/gH+Af4B/gH+Af4B/gH+Af4B/gH+Af4B/gH+Af4B/gH+Af4B/gH+Af4B/gH+Af4B/gH+Af4B/gH+Af4B/gH+Af4B/gH9/f39/f39/gH+Af4CAf4B/gH+Af4B/gH+Af4B/gH+Af4B/gH+Af4B/gH+Af4B/gH+Af4B/gH+Af4B/gH+Af4B/gH+Af4B/gH+Af4B/gH+Af4B/gH+Af4B/gH+Af4B/gH+Af39/f39/f39/f4B/gICAf4B/gH+Af4B/gH+Af4B/gH+Af4B/gH+Af4B/gH+Af4B/gH+Af4B/gH+Af4B/gH+Af4B/gH+Af4B/gH+Af4B/gH+Af4B/gH+Af4B/gH+Af4B/gH+Af4B/f39/f39/f39/f39/gH+AgIB/gH+Af4B/gH+Af4B/gH+Af4B/gH+Af4B/gH+Af4B/gH+Af4B/gH+Af4B/gH+Af4B/gH+Af4B/gH+Af4B/gH+Af4B/gH+Af4B/gH+Af4B/gH+Af39/f39/f39/f39/f39/gH+AgH+Af4B/gH+Af4B/gH+Af4B/gH+Af4B/gH+Af4B/gH+Af4B/gH+Af4B/gH+Af4B/gH+Af4B/gH+Af4B/gH+Af4B/gH+Af4B/gH+Af4B/gH+Af39/f39/f39/f39/f39/f4B/gICAf4B/gH+Af4B/gH+Af4B/gH+Af4B/gH+Af4B/gH+Af4B/gH+Af4B/gH+Af4B/gH+Af4B/gH+Af4B/gH+Af4B/gH+Af4B/gH+Af4B/gH9/f39/f39/f39/f39/f39/f4B/gIB/gH+Af4B/gH+Af4B/gH+Af4B/gH+Af4B/gH+Af4B/gH+Af4B/gH+Af4B/gH+Af4B/gH+Af4B/gH+Af4B/gH+Af4B/gH+Af4B/f39/f39/f39/f39/f39/f39/f39/gH+Af4CAf4B/gH+Af4B/gH+Af4B/gH+Af4B/gH+Af4B/gH+Af4B/gH+Af4B/gH+Af4B/gH+Af4B/gH+Af4B/gH+Af4B/gH+Af39/f39/f39/f39/f39/f39/f39/f39/f4B/gH+Af4CAf4B/gH+Af4B/gH+Af4B/gH+Af4B/gH+Af4B/gH+Af4B/gH+Af4B/gH+Af4B/gH+Af4B/gH+Af4B/gH+Af39/f39/f39/f39/f39/f39/f39/f39/f39/gH+Af4B/gIB/gH+Af4B/gH+Af4B/gH+Af4B/gH+Af4B/gH+Af4B/gH+Af4B/gH+Af4B/gH+Af4B/gH+Af39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f4B/gH+Af4B/gH+Af4B/gH+Af4B/gH+Af4B/gH+Af4B/gH+Af4B/gH+Af4B/gH+Af4B/gH+Af39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f4B/gH+Af4B/gH+Af4B/gH+Af4B/gH+Af4B/gH+Af4B/gH+Af4B/gH+Af4B/gH+Af39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f4B/gH+Af4B/gH+Af4B/gH+Af4B/gH+Af4B/gH+Af4B/gH+Af4B/gH+Af39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/gH+Af4B/gH+Af4B/gH+Af4B/gH+Af4B/gH+Af4B/gH+Af4B/gH9/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f4B/gH+Af4B/gH+Af4B/gH+Af4B/gH+Af4B/gH+Af4B/gH9/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/gH+Af4B/gH+Af4B/gH+Af4B/gH+Af4B/gH+Af39/f39/f39/f39/f39/f39/f39/fw=="></audio>
+
+<!-- Timer Complete Sound: Success melody -->
+<audio id="timerCompleteSound" src="data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhBSuBzvLZiTYIG2m98OScTgwOUKni77RgGwU7k9n0yXkpBSh+zPLaizsKGGS66+ukUBELTKXh8bllHAU2jdXzzn0vBSGA0PLaiDYIHGq+8OSbTQwMTqfe8LZkHQU7k9j0yHgrBSh9y/HajDsKF2O56+yhTxAKSqPf8bllHAU1jNTzz3wwBSF/z/PaiDYIHGq+8OSbTQwMTqfe8LZkHQU7k9j0yHgrBSh9y/HajDsKF2O56+yhTxAKSqPf8bllHAU1jNTzz3wwBSF/z/PaiDYIHGq+8OSbTQwMTqfe8LZkHQU7k9j0yHgrBSh9y/HajDsKF2O56+yhTxAKSqPf8bllHAU1jNTzz3wwBSF/z/PaiDYIHGq+8OSbTQwMTqfe8LZkHQU7k9j0yHgrBSh9y/HajDsKF2O56+yhTxAKSqPf8bllHAU1jNTzz3wwBSF/z/PaiDYIHGq+8OSbTQwMTqfe8LZkHQU7k9j0yHgrBSh9y/HajDsKF2O56+yhTxAKSqPf8bllHAU1jNTzz3wwBSF/z/PaiDYIHGq+8OSbTQwMTqfe8LZkHQU7k9j0yHgrBSh9y/HajDsKF2O56+yhTxAKSqPf8bllHAU1jNTzz3wwBSF/z/PaiDYIHGq+8OSbTQwMTqfe8LZkHQU7k9j0yHgrBSh9y/HajDsKF2O56+yhTxAKSqPf8bllHAU1jNTzz3wwBSF/z/PaiDYIHGq+8OSbTQwMTqfe8LZkHQU7k9j0yHgrBSh9y/HajDsKF2O56+yhTxAKSqPf8bllHAU1jNTzz3wwBSF/z/PaiDYIHGq+8OSbTQwMTqfe8LZkHQU7k9j0yHgrBSh9y/HajDsKF2O56+yhTxAKSqPf8bllHAU1jNTzz3wwBSF/z/PaiDYIHGq+8OSbTQwMTqfe8LZkHQU7k9j0yHgrBSh9y/HajDsKF2O56+yhTxAKSqPf8bllHAU1jNTzz3wwBSF/z/PaiDYIHGq+8OSbTQwMTqfe8LZkHQU7k9j0yHgrBSh9y/HajDsKF2O56+yhTxAKSqPf8bllHAU1jNTzz3wwBSF/z/PaiDYIHGq+8OSbTQwMTqfe8LZkHQU7k9j0yHgrBSh9y/HajDsKF2O56+yhTxAKSqPf8bllHAU1jNTzz3wwBSF/z/PaiDYIHGq+8OSbTQwMTqfe8LZkHQU7k9j0yHgrBSh9y/HajDsKF2O56+yhTxAKSqPf8bllHAU1jNTzz3wwBSF/z/PaiDYIHGq+8OSbTQwMTqfe8LZkHQU7k9j0yHgrBQ=="></audio>
+
+<!-- Task Complete Sound: Cheerful chime -->
+<audio id="taskCompleteSound" src="data:audio/wav;base64,UklGRiQEAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQAEAAB/gH+AgH9/gIB/f4CAf3+AgH9/gIB/f4CAf3+AgH9/gIB/f4CAf3+AgH9/gIB/f4CAf3+AgH9/gIB/f4CAf3+AgH9/gIB/f4CAf3+AgH9/gIB/f4CAf3+AgH9/gIB/f4CAf3+AgH9/gIB/f4CAf3+AgH9/gIB/f4CAf3+AgH9/gIB/f4CAf3+AgH9/gIB/f4CAf3+AgH9/gIB/f4CAf3+AgH9/gIB/f4CAf3+AgH9/gIB/f4CAf3+AgH9/gIB/f4CAf3+AgH9/gIB/f4CAf3+AgH9/gIB/f4CAf3+AgH9/gIB/f4CAf3+AgH9/gIB/f4CAf3+AgH9/gIB/f4CAf3+AgH9/gIB/f4CAf3+AgH9/gIB/f4CAf3+AgH9/gIB/f4CAf3+AgH9/gIB/f4CAf3+AgH9/gIB/f4CAf3+AgH9/gIB/f4CAf3+AgH9/gIB/f4CAf3+AgH9/gIB/f4CAf3+AgH9/gIB/f4CAf3+AgH9/gIB/f4CAf3+AgH9/gIB/f4CAf3+AgH9/gIB/f4CAf3+AgH9/gIB/f4CAf3+AgH9/gIB/f4CAf3+AgH9/gIB/f4CAf3+AgH9/gIB/f4CAf3+AgH9/gIB/f4CAf3+AgH9/gIB/f4CAf3+AgH9/gIB/f4CAf3+AgH9/gIB/f4CAf3+AgH9/gIB/f4CAf3+AgH9/gIB/f4CAf3+AgH9/gIB/f4CAf3+AgH9/gIB/f4CAf3+AgH9/gIB/f4CAf3+AgH9/gIB/f4CAf3+AgH9/gIB/f4CAf3+AgH9/gIB/f4CAf3+AgH9/gIB/f4CAf3+AgH9/gIB/f4CAf3+AgH9/gIB/f4CAf3+AgH9/gIB/f4CAf3+AgH9/gIB/f4CAf3+AgH9/gIB/f4CAf3+AgH9/gIB/f4CAf3+AgH9/gIB/f4CAf3+AgH9/gIB/f4CAf3+AgH9/gIB/f4CAf3+AgH9/gIB/f4CAf3+AgH9/gIB/f4CAf3+AgH9/gIB/f4CAf3+AgH9/gIB/f4CAf3+AgH9/gIB/f4CAf3+AgH9/gIB/f4CAf3+AgH9/gIB/f4CAf3+AgH9/gIB/f4CAf3+AgH9/gIB/f4CAf3+AgH9/gIB/f4CAf3+AgH9/gIB/f4CAf3+AgH9/gIB/f4CAf3+AgH9/gIB/f4CAf3+AgH9/gIB/f4CAf3+AgH9/gIB/f4CAf3+AgH9/gIB/f4CAf3+AgH9/gIB/f4CAf3+AgH9/gIB/f4CAf3+AgH9/gIB/f4CAf3+AgH9/gIB/f4CAf3+AgH9/gIB/f4CAf3+AgH9/gIB/f4CAf3+AgH9/gA=="></audio>
 
 <script>
 let timerState = {
@@ -523,6 +613,13 @@ let timerState = {
 let todos = [];
 let todoIdCounter = 0;
 
+// Volume settings
+let volumeSettings = {
+    timerStart: 0.7,
+    timerComplete: 0.8,
+    taskComplete: 0.6
+};
+
 // Load saved data
 function loadData() {
     const today = new Date().toDateString();
@@ -538,6 +635,16 @@ function loadData() {
             updateStats();
         }
     }
+    
+    // Load volume settings
+    const savedVolume = localStorage.getItem('focusFlowVolume');
+    if (savedVolume) {
+        volumeSettings = JSON.parse(savedVolume);
+        document.getElementById('volumeTimerStart').value = volumeSettings.timerStart * 100;
+        document.getElementById('volumeTimerComplete').value = volumeSettings.timerComplete * 100;
+        document.getElementById('volumeTaskComplete').value = volumeSettings.taskComplete * 100;
+        updateVolumeDisplays();
+    }
 }
 
 // Save data
@@ -550,6 +657,21 @@ function saveData() {
         sessionsCompleted: timerState.sessionsCompleted
     };
     localStorage.setItem('focusFlowData', JSON.stringify(data));
+}
+
+// Save volume settings
+function saveVolumeSettings() {
+    localStorage.setItem('focusFlowVolume', JSON.stringify(volumeSettings));
+}
+
+// Play sound with volume control
+function playSound(soundId, volumeLevel) {
+    const sound = document.getElementById(soundId);
+    if (sound) {
+        sound.volume = volumeLevel;
+        sound.currentTime = 0;
+        sound.play().catch(() => {});
+    }
 }
 
 // Timer Functions
@@ -566,6 +688,9 @@ function startTimer() {
         timerState.isRunning = true;
         document.getElementById('startBtn').textContent = 'Pause';
         document.getElementById('timerCircle').classList.add('active');
+        
+        // Play start sound
+        playSound('timerStartSound', volumeSettings.timerStart);
         
         timerState.interval = setInterval(() => {
             timerState.timeLeft--;
@@ -602,8 +727,8 @@ function completeSession() {
     clearInterval(timerState.interval);
     timerState.isRunning = false;
     
-    // Play sound
-    document.getElementById('completeSound').play().catch(() => {});
+    // Play completion sound
+    playSound('timerCompleteSound', volumeSettings.timerComplete);
     
     // Show celebration
     showCelebration(timerState.isBreak ? '🎉' : '✅');
@@ -710,6 +835,8 @@ function toggleTodo(id) {
     if (todo) {
         todo.completed = !todo.completed;
         if (todo.completed) {
+            // Play task complete sound
+            playSound('taskCompleteSound', volumeSettings.taskComplete);
             showCelebration(['🎉', '✨', '🌟', '💪', '🔥'][Math.floor(Math.random() * 5)]);
         }
         renderTodos();
@@ -769,6 +896,34 @@ function escapeHtml(text) {
     div.textContent = text;
     return div.innerHTML;
 }
+
+// Volume control handlers
+function updateVolumeDisplays() {
+    document.getElementById('volumeTimerStartValue').textContent = 
+        Math.round(volumeSettings.timerStart * 100) + '%';
+    document.getElementById('volumeTimerCompleteValue').textContent = 
+        Math.round(volumeSettings.timerComplete * 100) + '%';
+    document.getElementById('volumeTaskCompleteValue').textContent = 
+        Math.round(volumeSettings.taskComplete * 100) + '%';
+}
+
+document.getElementById('volumeTimerStart').addEventListener('input', function(e) {
+    volumeSettings.timerStart = e.target.value / 100;
+    updateVolumeDisplays();
+    saveVolumeSettings();
+});
+
+document.getElementById('volumeTimerComplete').addEventListener('input', function(e) {
+    volumeSettings.timerComplete = e.target.value / 100;
+    updateVolumeDisplays();
+    saveVolumeSettings();
+});
+
+document.getElementById('volumeTaskComplete').addEventListener('input', function(e) {
+    volumeSettings.taskComplete = e.target.value / 100;
+    updateVolumeDisplays();
+    saveVolumeSettings();
+});
 
 // Initialize
 loadData();
