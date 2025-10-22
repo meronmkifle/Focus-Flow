@@ -7,8 +7,53 @@ A Pomodoro timer is a productivity tool based on the Pomodoro Technique, which b
 
 ---
 
-## Support
+## Features
 
+### ⏱️ **Core Timer Functionality**
+- Customizable focus, short break, and long break durations
+- Visual progress ring showing session progress
+- Automatic cycling between focus and break sessions
+- Session counter tracking completed Pomodoros
+
+### 🎨 **Enhanced Interface**
+- **Dark Mode** – Toggle between light and dark themes for comfortable viewing
+- **Fullscreen Mode** – Distraction-free focus mode with enlarged timer display
+- **Mobile Responsive** – Fully optimized for desktop, tablet, and mobile devices
+- Clean, intuitive design with smooth animations
+
+### ⌨️ **Keyboard Shortcuts**
+- **SPACE** – Start/Pause timer
+- **R** – Reset timer
+- **S** – Skip break
+- **F** – Toggle fullscreen
+- **ESC** – Close settings panel
+
+### 🔔 **Productivity Features**
+- **Auto-start Sessions** – Automatically begin next session after completion
+- **Browser Notifications** – Get notified when sessions complete
+- **Session History** – View today's completed focus sessions and breaks with timestamps
+- **Skip Break Option** – Continue working if you're in the flow
+
+### 🎵 **Sound & Audio**
+- **Customizable Volume** – Adjust sound levels up to 200% for louder alerts
+- **Multiple Sound Effects** – Different sounds for timer start, completion, and task completion
+- **Ambient Sounds** – Optional white noise during focus sessions
+- **Mobile-Optimized Audio** – Reliable sound playback on all devices
+
+### ✅ **Task Management**
+- Integrated todo list to track your tasks
+- Mark tasks as complete with celebration animations
+- Edit and delete tasks easily
+- Task completion counter
+
+### 📊 **Statistics**
+- Tasks completed today
+- Focus sessions completed
+- Total minutes focused
+
+---
+
+## Support
 If you find this tool helpful, consider buying me a coffee! ☕
 
 <a href="https://buymeacoffee.com/qhl34mcne4" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
