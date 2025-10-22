@@ -79,6 +79,12 @@ body {
     padding:0 60px;
 }
 
+@media (max-width: 768px) {
+    .header {
+        padding:0;
+    }
+}
+
 .header h1 {
     font-size:2.5em;
     background:linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -169,6 +175,7 @@ body {
     z-index:1000;
     transition:right 0.3s ease;
     overflow-y:auto;
+    -webkit-overflow-scrolling:touch;
 }
 
 .settings-panel.active {
@@ -859,20 +866,39 @@ input:checked + .toggle-slider:before {
 /* Responsive Design */
 @media (max-width: 768px) {
     .container {
-        padding:25px;
+        padding:20px;
     }
     
     .header {
-        padding:0 50px 0 0;
+        padding:0 0 0 0;
+        margin-bottom:30px;
     }
     
     .header h1 {
-        font-size:2em;
+        font-size:1.8em;
+        margin-bottom:5px;
+    }
+    
+    .header p {
+        font-size:0.95em;
     }
     
     .header-controls {
-        flex-direction:column;
-        gap:5px;
+        position:relative;
+        top:auto;
+        right:auto;
+        justify-content:center;
+        margin-top:15px;
+        gap:12px;
+    }
+    
+    .icon-btn {
+        width:50px;
+        height:50px;
+        font-size:1.4em;
+        /* Ensure minimum touch target size */
+        min-width:48px;
+        min-height:48px;
     }
     
     .main-layout {
@@ -904,6 +930,179 @@ input:checked + .toggle-slider:before {
     
     .fullscreen-mode .timer-display {
         font-size:3.5em;
+    }
+    
+    /* Improve mobile touch targets */
+    .btn {
+        min-height:48px;
+        padding:14px 25px;
+    }
+    
+    .btn-add {
+        min-width:70px;
+        min-height:48px;
+    }
+    
+    .toggle-slider {
+        width:60px;
+        height:32px;
+    }
+    
+    .toggle-slider:before {
+        height:24px;
+        width:24px;
+    }
+    
+    input:checked + .toggle-slider:before {
+        transform:translateX(28px);
+    }
+    
+    .test-sound-btn {
+        min-height:40px;
+        padding:10px 18px;
+    }
+    
+    .todo-checkbox {
+        width:28px;
+        height:28px;
+        min-width:28px;
+        min-height:28px;
+    }
+    
+    .btn-icon {
+        font-size:1.4em;
+        padding:8px;
+        min-width:44px;
+        min-height:44px;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+    }
+    
+    .todo-item {
+        padding:18px 15px;
+        gap:12px;
+    }
+    
+    .setting-group input {
+        min-height:44px;
+        width:80px;
+        font-size:1em;
+    }
+    
+    .close-settings-btn {
+        width:44px;
+        height:44px;
+        font-size:1.5em;
+    }
+    
+    .settings-panel-header {
+        padding:20px;
+    }
+    
+    .settings-panel-content {
+        padding:20px;
+    }
+    
+    .toggle-group {
+        padding:8px 0;
+    }
+    
+    .toggle-group label {
+        font-size:1em;
+    }
+    
+    .volume-slider {
+        height:12px;
+    }
+    
+    .volume-slider::-webkit-slider-thumb {
+        width:28px;
+        height:28px;
+    }
+    
+    .volume-slider::-moz-range-thumb {
+        width:28px;
+        height:28px;
+    }
+    
+    .shortcut-item {
+        padding:14px;
+    }
+    
+    .timer-controls {
+        gap:12px;
+        width:100%;
+    }
+    
+    .timer-controls .btn {
+        flex:1;
+        min-width:0;
+    }
+    
+    .todo-input {
+        min-height:48px;
+        padding:14px 20px;
+        font-size:1em;
+    }
+    
+    .todo-section h2 {
+        font-size:1.3em;
+    }
+    
+    .settings h3 {
+        font-size:1em;
+    }
+    
+    .session-history {
+        margin-top:15px;
+    }
+    
+    .stat-card {
+        padding:25px 20px;
+    }
+    
+    .stats {
+        gap:15px;
+        margin-top:25px;
+    }
+    
+    .todo-input-group {
+        flex-direction:row;
+        gap:10px;
+    }
+    
+    /* Add more spacing to prevent accidental edge taps */
+    body {
+        padding:15px;
+    }
+    
+    .settings {
+        padding:18px;
+        margin-top:18px;
+    }
+    
+    .setting-group {
+        margin-bottom:18px;
+    }
+    
+    .settings-section {
+        margin-bottom:25px;
+        padding-bottom:25px;
+    }
+    
+    .settings-section h3 {
+        font-size:1.1em;
+        margin-bottom:18px;
+    }
+    
+    .volume-slider-group {
+        margin-bottom:18px;
+    }
+    
+    .volume-slider-group label {
+        font-size:1em;
+        margin-bottom:8px;
     }
 }
 </style>
