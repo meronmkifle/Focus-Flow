@@ -9,7 +9,7 @@
 ## Preview
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/meronmkifle/Focus-Flow/main/Focus%20Flow%20Screenshot%20.png" width="60%" />
+  <img src="https://github.com/meronmkifle/Focus-Flow/blob/main/Focus%20Flow%20Screenshot%20.png" width="60%" />
 </p>
 
 ---
