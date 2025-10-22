@@ -6,18 +6,43 @@
 <title>Focus Flow - Pomodoro Timer</title>
 <style>
 * {margin:0;padding:0;box-sizing:border-box;}
+
+:root {
+    --bg-gradient-start: #667eea;
+    --bg-gradient-end: #764ba2;
+    --container-bg: rgba(255,255,255,0.95);
+    --text-primary: #333;
+    --text-secondary: #666;
+    --text-muted: #999;
+    --card-bg: white;
+    --border-color: #e0e0e0;
+    --shadow: rgba(0,0,0,0.1);
+}
+
+body.dark-mode {
+    --bg-gradient-start: #1a1a2e;
+    --bg-gradient-end: #16213e;
+    --container-bg: rgba(30,30,46,0.95);
+    --text-primary: #e0e0e0;
+    --text-secondary: #b0b0b0;
+    --text-muted: #707070;
+    --card-bg: #2a2a3e;
+    --border-color: #3a3a4e;
+    --shadow: rgba(0,0,0,0.3);
+}
+
 body {
     font-family:'Segoe UI',system-ui,sans-serif;
-    background:linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background:linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
     min-height:100vh;
     display:flex;
     justify-content:center;
     align-items:center;
     padding:20px;
     position:relative;
+    transition:background 0.3s ease;
 }
 
-/* Floating animations */
 .floating-emoji {
     position:absolute;
     font-size:2em;
@@ -35,21 +60,23 @@ body {
 }
 
 .container {
-    background:rgba(255,255,255,0.95);
+    background:var(--container-bg);
     backdrop-filter:blur(10px);
     border-radius:30px;
     padding:40px;
-    box-shadow:0 20px 60px rgba(0,0,0,0.3);
-    max-width:900px;
+    box-shadow:0 20px 60px var(--shadow);
+    max-width:1100px;
     width:100%;
     position:relative;
     z-index:10;
+    transition:all 0.3s ease;
 }
 
 .header {
     text-align:center;
-    margin-bottom:30px;
+    margin-bottom:40px;
     position:relative;
+    padding:0 60px;
 }
 
 .header h1 {
@@ -61,38 +88,72 @@ body {
 }
 
 .header p {
-    color:#666;
+    color:var(--text-secondary);
     font-size:1.1em;
 }
 
-/* Settings Icon Button */
-.settings-icon-btn {
+.header-controls {
     position:absolute;
     top:0;
     right:0;
+    display:flex;
+    gap:10px;
+}
+
+.icon-btn {
     background:linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color:white;
     border:none;
     width:45px;
     height:45px;
     border-radius:50%;
-    font-size:1.5em;
+    font-size:1.3em;
     cursor:pointer;
     display:flex;
     align-items:center;
     justify-content:center;
     box-shadow:0 4px 15px rgba(102,126,234,0.3);
     transition:all 0.3s ease;
-    z-index:100;
 }
 
-.settings-icon-btn:hover {
-    transform:scale(1.1) rotate(90deg);
+.icon-btn:hover {
+    transform:scale(1.1);
     box-shadow:0 6px 20px rgba(102,126,234,0.5);
 }
 
-.settings-icon-btn:active {
-    transform:scale(0.95);
+.icon-btn.active {
+    background:linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}
+
+/* Fullscreen Mode */
+.fullscreen-mode {
+    position:fixed;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    background:linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
+    z-index:9999;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    padding:40px;
+}
+
+.fullscreen-mode .timer-circle {
+    width:400px;
+    height:400px;
+}
+
+.fullscreen-mode .timer-display {
+    font-size:5em;
+}
+
+.fullscreen-mode .exit-fullscreen-btn {
+    position:absolute;
+    top:30px;
+    right:30px;
 }
 
 /* Settings Panel */
@@ -101,10 +162,10 @@ body {
     top:0;
     right:-100%;
     width:100%;
-    max-width:400px;
+    max-width:450px;
     height:100vh;
-    background:white;
-    box-shadow:-5px 0 25px rgba(0,0,0,0.3);
+    background:var(--card-bg);
+    box-shadow:-5px 0 25px var(--shadow);
     z-index:1000;
     transition:right 0.3s ease;
     overflow-y:auto;
@@ -175,34 +236,92 @@ body {
     padding:25px;
 }
 
-.volume-section {
+.settings-section {
     margin-bottom:30px;
+    padding-bottom:30px;
+    border-bottom:1px solid var(--border-color);
 }
 
-.volume-section h3 {
+.settings-section:last-child {
+    border-bottom:none;
+}
+
+.settings-section h3 {
     font-size:1.2em;
-    color:#333;
+    color:var(--text-primary);
     margin-bottom:20px;
     display:flex;
     align-items:center;
     gap:10px;
 }
 
-.volume-sliders {
+.toggle-group {
     display:flex;
-    flex-direction:column;
-    gap:20px;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:15px;
+}
+
+.toggle-group label {
+    font-size:0.95em;
+    color:var(--text-secondary);
+    font-weight:600;
+}
+
+.toggle-switch {
+    position:relative;
+    width:50px;
+    height:26px;
+}
+
+.toggle-switch input {
+    opacity:0;
+    width:0;
+    height:0;
+}
+
+.toggle-slider {
+    position:absolute;
+    cursor:pointer;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    background:#ccc;
+    transition:0.3s;
+    border-radius:26px;
+}
+
+.toggle-slider:before {
+    position:absolute;
+    content:"";
+    height:18px;
+    width:18px;
+    left:4px;
+    bottom:4px;
+    background:white;
+    transition:0.3s;
+    border-radius:50%;
+}
+
+input:checked + .toggle-slider {
+    background:#667eea;
+}
+
+input:checked + .toggle-slider:before {
+    transform:translateX(24px);
 }
 
 .volume-slider-group {
     display:flex;
     flex-direction:column;
     gap:10px;
+    margin-bottom:20px;
 }
 
 .volume-slider-group label {
     font-size:0.95em;
-    color:#555;
+    color:var(--text-secondary);
     font-weight:600;
     display:flex;
     justify-content:space-between;
@@ -253,7 +372,7 @@ body {
 }
 
 .test-sound-btn {
-    margin-top:10px;
+    margin-top:5px;
     padding:8px 16px;
     background:rgba(102,126,234,0.1);
     border:1px solid #667eea;
@@ -269,20 +388,46 @@ body {
     color:white;
 }
 
-.audio-note {
+.info-note {
     font-size:0.85em;
-    color:#888;
+    color:var(--text-muted);
     margin-top:15px;
     padding:12px;
-    background:#f8f9fa;
+    background:rgba(102,126,234,0.05);
     border-radius:8px;
     border-left:3px solid #667eea;
+}
+
+.keyboard-shortcuts {
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+}
+
+.shortcut-item {
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:10px;
+    background:rgba(102,126,234,0.05);
+    border-radius:8px;
+}
+
+.shortcut-key {
+    background:var(--card-bg);
+    padding:5px 12px;
+    border-radius:6px;
+    font-family:monospace;
+    font-weight:600;
+    font-size:0.9em;
+    border:1px solid var(--border-color);
+    color:var(--text-primary);
 }
 
 .main-layout {
     display:grid;
     grid-template-columns:1fr 1fr;
-    gap:30px;
+    gap:40px;
     margin-bottom:30px;
 }
 
@@ -365,6 +510,8 @@ body {
     display:flex;
     gap:15px;
     margin-top:25px;
+    flex-wrap:wrap;
+    justify-content:center;
 }
 
 .btn {
@@ -389,7 +536,7 @@ body {
 }
 
 .btn-secondary {
-    background:white;
+    background:var(--card-bg);
     color:#667eea;
     border:2px solid #667eea;
 }
@@ -399,17 +546,30 @@ body {
     color:white;
 }
 
+.btn-skip {
+    background:rgba(245,87,108,0.1);
+    color:#f5576c;
+    border:2px solid #f5576c;
+    font-size:0.9em;
+    padding:10px 20px;
+}
+
+.btn-skip:hover {
+    background:#f5576c;
+    color:white;
+}
+
 .settings {
-    background:white;
+    background:var(--card-bg);
     padding:20px;
     border-radius:15px;
     margin-top:20px;
-    box-shadow:0 4px 15px rgba(0,0,0,0.1);
+    box-shadow:0 4px 15px var(--shadow);
 }
 
 .settings h3 {
     font-size:1.1em;
-    color:#333;
+    color:var(--text-primary);
     margin-bottom:15px;
     display:flex;
     align-items:center;
@@ -429,21 +589,71 @@ body {
 
 .setting-group label {
     font-size:0.95em;
-    color:#666;
+    color:var(--text-secondary);
 }
 
 .setting-group input {
     width:70px;
     padding:8px;
-    border:2px solid #e0e0e0;
+    border:2px solid var(--border-color);
     border-radius:8px;
     font-size:0.95em;
     text-align:center;
+    background:var(--card-bg);
+    color:var(--text-primary);
 }
 
 .setting-group input:focus {
     outline:none;
     border-color:#667eea;
+}
+
+/* Session History */
+.session-history {
+    background:var(--card-bg);
+    padding:20px;
+    border-radius:15px;
+    margin-top:20px;
+    box-shadow:0 4px 15px var(--shadow);
+    max-height:250px;
+    overflow-y:auto;
+}
+
+.session-history h3 {
+    font-size:1.1em;
+    color:var(--text-primary);
+    margin-bottom:15px;
+    display:flex;
+    align-items:center;
+    gap:8px;
+}
+
+.session-list {
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+}
+
+.session-item {
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:10px;
+    background:rgba(102,126,234,0.05);
+    border-radius:8px;
+    font-size:0.9em;
+}
+
+.session-type {
+    display:flex;
+    align-items:center;
+    gap:8px;
+    color:var(--text-primary);
+}
+
+.session-time {
+    color:var(--text-muted);
+    font-size:0.85em;
 }
 
 /* Todo Section */
@@ -454,7 +664,7 @@ body {
 
 .todo-section h2 {
     font-size:1.5em;
-    color:#333;
+    color:var(--text-primary);
     margin-bottom:20px;
     display:flex;
     align-items:center;
@@ -470,10 +680,12 @@ body {
 .todo-input {
     flex:1;
     padding:12px 20px;
-    border:2px solid #e0e0e0;
+    border:2px solid var(--border-color);
     border-radius:25px;
     font-size:1em;
     transition:all 0.3s ease;
+    background:var(--card-bg);
+    color:var(--text-primary);
 }
 
 .todo-input:focus {
@@ -511,7 +723,7 @@ body {
 }
 
 .todo-list::-webkit-scrollbar-track {
-    background:#f1f1f1;
+    background:var(--border-color);
     border-radius:10px;
 }
 
@@ -521,7 +733,7 @@ body {
 }
 
 .todo-item {
-    background:white;
+    background:var(--card-bg);
     padding:15px 20px;
     border-radius:15px;
     margin-bottom:10px;
@@ -529,12 +741,12 @@ body {
     align-items:center;
     gap:15px;
     transition:all 0.3s ease;
-    box-shadow:0 2px 8px rgba(0,0,0,0.1);
+    box-shadow:0 2px 8px var(--shadow);
 }
 
 .todo-item:hover {
     transform:translateX(5px);
-    box-shadow:0 4px 12px rgba(0,0,0,0.15);
+    box-shadow:0 4px 12px var(--shadow);
 }
 
 .todo-item.completed {
@@ -543,7 +755,7 @@ body {
 
 .todo-item.completed .todo-text {
     text-decoration:line-through;
-    color:#999;
+    color:var(--text-muted);
 }
 
 .todo-checkbox {
@@ -556,7 +768,7 @@ body {
 .todo-text {
     flex:1;
     font-size:1em;
-    color:#333;
+    color:var(--text-primary);
 }
 
 .todo-actions {
@@ -650,8 +862,22 @@ body {
         padding:25px;
     }
     
+    .header {
+        padding:0 50px 0 0;
+    }
+    
+    .header h1 {
+        font-size:2em;
+    }
+    
+    .header-controls {
+        flex-direction:column;
+        gap:5px;
+    }
+    
     .main-layout {
         grid-template-columns:1fr;
+        gap:30px;
     }
     
     .timer-circle {
@@ -667,12 +893,17 @@ body {
         flex-direction:column;
     }
     
-    .header h1 {
-        font-size:2em;
-    }
-    
     .settings-panel {
         max-width:100%;
+    }
+    
+    .fullscreen-mode .timer-circle {
+        width:300px;
+        height:300px;
+    }
+    
+    .fullscreen-mode .timer-display {
+        font-size:3.5em;
     }
 }
 </style>
@@ -688,7 +919,11 @@ body {
     <div class="header">
         <h1>🎯 Focus Flow</h1>
         <p>Stay focused, achieve more</p>
-        <button class="settings-icon-btn" onclick="openSettings()" title="Settings">⚙️</button>
+        <div class="header-controls">
+            <button class="icon-btn" id="darkModeBtn" onclick="toggleDarkMode()" title="Toggle Dark Mode">🌙</button>
+            <button class="icon-btn" id="fullscreenBtn" onclick="toggleFullscreen()" title="Fullscreen Mode">⛶</button>
+            <button class="icon-btn" onclick="openSettings()" title="Settings">⚙️</button>
+        </div>
     </div>
 
     <div class="main-layout">
@@ -708,6 +943,7 @@ body {
             <div class="timer-controls">
                 <button class="btn btn-primary" id="startBtn" onclick="toggleTimer()">Start</button>
                 <button class="btn btn-secondary" onclick="resetTimer()">Reset</button>
+                <button class="btn btn-skip" id="skipBtn" onclick="skipBreak()" style="display:none;">Skip Break</button>
             </div>
 
             <div class="settings">
@@ -723,6 +959,13 @@ body {
                 <div class="setting-group">
                     <label>Long Break (min)</label>
                     <input type="number" id="longBreakTime" value="15" min="1" max="60">
+                </div>
+            </div>
+            
+            <div class="session-history">
+                <h3>📊 Today's Sessions</h3>
+                <div class="session-list" id="sessionList">
+                    <p style="text-align:center;color:var(--text-muted);padding:20px;">No sessions completed yet</p>
                 </div>
             </div>
         </div>
@@ -741,7 +984,7 @@ body {
             </div>
 
             <div class="todo-list" id="todoList">
-                <p style="text-align:center;color:#999;padding:40px 20px;">No tasks yet. Add one to get started! 🚀</p>
+                <p style="text-align:center;color:var(--text-muted);padding:40px 20px;">No tasks yet. Add one to get started! 🚀</p>
             </div>
         </div>
     </div>
@@ -775,76 +1018,122 @@ body {
     </div>
     
     <div class="settings-panel-content">
-        <div class="volume-section">
-            <h3>🔊 Sound Volume</h3>
-            <div class="volume-sliders">
-                <div class="volume-slider-group">
-                    <label>
-                        Timer Start Sound
-                        <span class="volume-value" id="volumeTimerStartValue">100%</span>
-                    </label>
-                    <input type="range" class="volume-slider" id="volumeTimerStart" 
-                           min="0" max="200" value="100">
-                    <button class="test-sound-btn" onclick="testTimerStartSound()">Test Sound</button>
-                </div>
-                
-                <div class="volume-slider-group">
-                    <label>
-                        Timer Complete Sound
-                        <span class="volume-value" id="volumeTimerCompleteValue">100%</span>
-                    </label>
-                    <input type="range" class="volume-slider" id="volumeTimerComplete" 
-                           min="0" max="200" value="100">
-                    <button class="test-sound-btn" onclick="testTimerCompleteSound()">Test Sound</button>
-                </div>
-                
-                <div class="volume-slider-group">
-                    <label>
-                        Task Complete Sound
-                        <span class="volume-value" id="volumeTaskCompleteValue">100%</span>
-                    </label>
-                    <input type="range" class="volume-slider" id="volumeTaskComplete" 
-                           min="0" max="200" value="100">
-                    <button class="test-sound-btn" onclick="testTaskCompleteSound()">Test Sound</button>
-                </div>
+        <!-- Productivity Settings -->
+        <div class="settings-section">
+            <h3>⚡ Productivity</h3>
+            <div class="toggle-group">
+                <label>Auto-start next session</label>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="autoStartToggle">
+                    <span class="toggle-slider"></span>
+                </label>
             </div>
-            <div class="audio-note">
-                💡 <strong>Tip:</strong> Volume can go up to 200% for louder sounds. On mobile, tap any button first to enable audio.
+            <div class="toggle-group">
+                <label>Enable notifications</label>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="notificationsToggle">
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+            <div class="toggle-group">
+                <label>Ambient sounds</label>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="ambientSoundsToggle">
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+        </div>
+        
+        <!-- Volume Settings -->
+        <div class="settings-section">
+            <h3>🔊 Sound Volume</h3>
+            <div class="volume-slider-group">
+                <label>
+                    Timer Start Sound
+                    <span class="volume-value" id="volumeTimerStartValue">100%</span>
+                </label>
+                <input type="range" class="volume-slider" id="volumeTimerStart" 
+                       min="0" max="200" value="100">
+                <button class="test-sound-btn" onclick="testTimerStartSound()">Test Sound</button>
+            </div>
+            
+            <div class="volume-slider-group">
+                <label>
+                    Timer Complete Sound
+                    <span class="volume-value" id="volumeTimerCompleteValue">100%</span>
+                </label>
+                <input type="range" class="volume-slider" id="volumeTimerComplete" 
+                       min="0" max="200" value="100">
+                <button class="test-sound-btn" onclick="testTimerCompleteSound()">Test Sound</button>
+            </div>
+            
+            <div class="volume-slider-group">
+                <label>
+                    Task Complete Sound
+                    <span class="volume-value" id="volumeTaskCompleteValue">100%</span>
+                </label>
+                <input type="range" class="volume-slider" id="volumeTaskComplete" 
+                       min="0" max="200" value="100">
+                <button class="test-sound-btn" onclick="testTaskCompleteSound()">Test Sound</button>
+            </div>
+            <div class="info-note">
+                💡 Volume can go up to 200% for louder sounds. On mobile, tap any button first to enable audio.
+            </div>
+        </div>
+        
+        <!-- Keyboard Shortcuts -->
+        <div class="settings-section">
+            <h3>⌨️ Keyboard Shortcuts</h3>
+            <div class="keyboard-shortcuts">
+                <div class="shortcut-item">
+                    <span>Start/Pause Timer</span>
+                    <span class="shortcut-key">SPACE</span>
+                </div>
+                <div class="shortcut-item">
+                    <span>Reset Timer</span>
+                    <span class="shortcut-key">R</span>
+                </div>
+                <div class="shortcut-item">
+                    <span>Skip Break</span>
+                    <span class="shortcut-key">S</span>
+                </div>
+                <div class="shortcut-item">
+                    <span>Toggle Fullscreen</span>
+                    <span class="shortcut-key">F</span>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
 <script>
-// Global Audio Context - initialized once on user interaction
+// Global Audio Context
 let audioContext = null;
 let audioInitialized = false;
+let ambientOscillator = null;
+let ambientGain = null;
 
-// Initialize audio context on first user interaction
 function initAudioContext() {
     if (!audioContext) {
         audioContext = new (window.AudioContext || window.webkitAudioContext)();
     }
-    
-    // Resume context if it's suspended (common on mobile)
     if (audioContext.state === 'suspended') {
         audioContext.resume();
     }
-    
     audioInitialized = true;
 }
 
-// Add click listener to initialize audio on any user interaction
-document.addEventListener('click', function initAudio() {
-    initAudioContext();
-}, { once: false }); // Keep listening for mobile compatibility
+document.addEventListener('click', initAudioContext, { once: false });
+document.addEventListener('touchstart', initAudioContext, { once: false });
 
-// Also try to initialize on touchstart for better mobile support
-document.addEventListener('touchstart', function initAudioTouch() {
-    initAudioContext();
-}, { once: false });
+// Settings
+let settings = {
+    autoStart: false,
+    notifications: false,
+    ambientSounds: false,
+    darkMode: false
+};
 
-// Volume settings with higher max (2.0 = 200%)
 let volumeSettings = {
     timerStart: 1.0,
     timerComplete: 1.0,
@@ -864,10 +1153,45 @@ let timerState = {
 
 let todos = [];
 let todoIdCounter = 0;
+let sessionHistory = [];
 
-// Settings panel functions
+// Dark Mode
+function toggleDarkMode() {
+    settings.darkMode = !settings.darkMode;
+    document.body.classList.toggle('dark-mode');
+    document.getElementById('darkModeBtn').textContent = settings.darkMode ? '☀️' : '🌙';
+    saveSettings();
+}
+
+// Fullscreen
+let isFullscreen = false;
+function toggleFullscreen() {
+    isFullscreen = !isFullscreen;
+    const container = document.querySelector('.container');
+    const btn = document.getElementById('fullscreenBtn');
+    
+    if (isFullscreen) {
+        container.classList.add('fullscreen-mode');
+        btn.classList.add('active');
+        // Create exit button in fullscreen
+        if (!document.querySelector('.exit-fullscreen-btn')) {
+            const exitBtn = document.createElement('button');
+            exitBtn.className = 'icon-btn exit-fullscreen-btn';
+            exitBtn.textContent = '✕';
+            exitBtn.onclick = toggleFullscreen;
+            container.appendChild(exitBtn);
+        }
+    } else {
+        container.classList.remove('fullscreen-mode');
+        btn.classList.remove('active');
+        const exitBtn = document.querySelector('.exit-fullscreen-btn');
+        if (exitBtn) exitBtn.remove();
+    }
+}
+
+// Settings panel
 function openSettings() {
-    initAudioContext(); // Initialize audio when opening settings
+    initAudioContext();
     document.getElementById('settingsPanel').classList.add('active');
     document.getElementById('settingsOverlay').classList.add('active');
 }
@@ -877,11 +1201,53 @@ function closeSettings() {
     document.getElementById('settingsOverlay').classList.remove('active');
 }
 
-// Improved sound functions with proper AudioContext management
-function createBeep(frequency, duration, volume) {
-    if (!audioContext) {
-        initAudioContext();
+// Notifications
+function requestNotificationPermission() {
+    if ('Notification' in window && Notification.permission === 'default') {
+        Notification.requestPermission();
     }
+}
+
+function showNotification(title, body) {
+    if (!settings.notifications || !('Notification' in window)) return;
+    if (Notification.permission === 'granted') {
+        new Notification(title, {
+            body: body,
+            icon: '🎯',
+            badge: '🎯'
+        });
+    }
+}
+
+// Ambient Sounds
+function startAmbientSound() {
+    if (!settings.ambientSounds || !audioContext) return;
+    
+    if (!ambientOscillator) {
+        ambientOscillator = audioContext.createOscillator();
+        ambientGain = audioContext.createGain();
+        
+        ambientOscillator.type = 'sine';
+        ambientOscillator.frequency.value = 100;
+        ambientGain.gain.value = 0.05;
+        
+        ambientOscillator.connect(ambientGain);
+        ambientGain.connect(audioContext.destination);
+        ambientOscillator.start();
+    }
+}
+
+function stopAmbientSound() {
+    if (ambientOscillator) {
+        ambientOscillator.stop();
+        ambientOscillator = null;
+        ambientGain = null;
+    }
+}
+
+// Sound functions
+function createBeep(frequency, duration, volume) {
+    if (!audioContext) initAudioContext();
     
     try {
         const oscillator = audioContext.createOscillator();
@@ -893,7 +1259,6 @@ function createBeep(frequency, duration, volume) {
         oscillator.frequency.value = frequency;
         oscillator.type = 'sine';
         
-        // Allow volume up to 2.0 (200%)
         gainNode.gain.setValueAtTime(Math.min(volume, 2.0), audioContext.currentTime);
         gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + duration);
         
@@ -911,20 +1276,17 @@ function playTimerStartSound(volume = 1.0) {
 
 function playTimerCompleteSound(volume = 1.0) {
     initAudioContext();
-    // Play a pleasant three-tone melody
-    setTimeout(() => createBeep(523, 0.2, volume), 0);     // C
-    setTimeout(() => createBeep(659, 0.2, volume), 200);   // E
-    setTimeout(() => createBeep(784, 0.3, volume), 400);   // G
+    setTimeout(() => createBeep(523, 0.2, volume), 0);
+    setTimeout(() => createBeep(659, 0.2, volume), 200);
+    setTimeout(() => createBeep(784, 0.3, volume), 400);
 }
 
 function playTaskCompleteSound(volume = 1.0) {
     initAudioContext();
-    // Quick success sound
     createBeep(880, 0.1, volume);
     setTimeout(() => createBeep(1047, 0.15, volume), 100);
 }
 
-// Test sound functions
 function testTimerStartSound() {
     playTimerStartSound(volumeSettings.timerStart);
 }
@@ -937,7 +1299,34 @@ function testTaskCompleteSound() {
     playTaskCompleteSound(volumeSettings.taskComplete);
 }
 
-// Load data from localStorage
+// Session History
+function addSessionToHistory(type) {
+    const now = new Date();
+    const timeString = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+    sessionHistory.unshift({ type, time: timeString });
+    if (sessionHistory.length > 20) sessionHistory.pop();
+    renderSessionHistory();
+}
+
+function renderSessionHistory() {
+    const list = document.getElementById('sessionList');
+    if (sessionHistory.length === 0) {
+        list.innerHTML = '<p style="text-align:center;color:var(--text-muted);padding:20px;">No sessions completed yet</p>';
+        return;
+    }
+    
+    list.innerHTML = sessionHistory.slice(0, 10).map(session => `
+        <div class="session-item">
+            <div class="session-type">
+                <span>${session.type === 'focus' ? '🎯' : '☕'}</span>
+                <span>${session.type === 'focus' ? 'Focus Session' : 'Break'}</span>
+            </div>
+            <div class="session-time">${session.time}</div>
+        </div>
+    `).join('');
+}
+
+// Load/Save data
 function loadData() {
     const savedData = localStorage.getItem('focusFlowData');
     if (savedData) {
@@ -947,12 +1336,13 @@ function loadData() {
             todos = data.todos || [];
             todoIdCounter = data.todoIdCounter || 0;
             timerState.sessionsCompleted = data.sessionsCompleted || 0;
+            sessionHistory = data.sessionHistory || [];
             renderTodos();
             updateStats();
+            renderSessionHistory();
         }
     }
     
-    // Load volume settings (now supports up to 2.0)
     const savedVolume = localStorage.getItem('focusFlowVolume');
     if (savedVolume) {
         volumeSettings = JSON.parse(savedVolume);
@@ -961,28 +1351,43 @@ function loadData() {
         document.getElementById('volumeTaskComplete').value = volumeSettings.taskComplete * 100;
         updateVolumeDisplays();
     }
+    
+    const savedSettings = localStorage.getItem('focusFlowSettings');
+    if (savedSettings) {
+        settings = JSON.parse(savedSettings);
+        document.getElementById('autoStartToggle').checked = settings.autoStart;
+        document.getElementById('notificationsToggle').checked = settings.notifications;
+        document.getElementById('ambientSoundsToggle').checked = settings.ambientSounds;
+        if (settings.darkMode) {
+            document.body.classList.add('dark-mode');
+            document.getElementById('darkModeBtn').textContent = '☀️';
+        }
+    }
 }
 
-// Save data
 function saveData() {
     const today = new Date().toDateString();
     const data = {
         date: today,
         todos: todos,
         todoIdCounter: todoIdCounter,
-        sessionsCompleted: timerState.sessionsCompleted
+        sessionsCompleted: timerState.sessionsCompleted,
+        sessionHistory: sessionHistory
     };
     localStorage.setItem('focusFlowData', JSON.stringify(data));
 }
 
-// Save volume settings
 function saveVolumeSettings() {
     localStorage.setItem('focusFlowVolume', JSON.stringify(volumeSettings));
 }
 
+function saveSettings() {
+    localStorage.setItem('focusFlowSettings', JSON.stringify(settings));
+}
+
 // Timer Functions
 function toggleTimer() {
-    initAudioContext(); // Ensure audio is initialized when starting timer
+    initAudioContext();
     if (!timerState.isRunning) {
         startTimer();
     } else {
@@ -996,8 +1401,8 @@ function startTimer() {
         document.getElementById('startBtn').textContent = 'Pause';
         document.getElementById('timerCircle').classList.add('active');
         
-        // Play start sound
         playTimerStartSound(volumeSettings.timerStart);
+        if (!timerState.isBreak) startAmbientSound();
         
         timerState.interval = setInterval(() => {
             timerState.timeLeft--;
@@ -1016,6 +1421,7 @@ function pauseTimer() {
     document.getElementById('startBtn').textContent = 'Resume';
     document.getElementById('timerCircle').classList.remove('active');
     clearInterval(timerState.interval);
+    stopAmbientSound();
 }
 
 function resetTimer() {
@@ -1028,43 +1434,55 @@ function resetTimer() {
     updateProgressRing();
     updateTimerMode();
     document.getElementById('startBtn').textContent = 'Start';
+    document.getElementById('skipBtn').style.display = 'none';
+}
+
+function skipBreak() {
+    if (timerState.isBreak) {
+        completeSession();
+    }
 }
 
 function completeSession() {
     clearInterval(timerState.interval);
     timerState.isRunning = false;
+    stopAmbientSound();
     
-    // Play completion sound
     playTimerCompleteSound(volumeSettings.timerComplete);
-    
-    // Show celebration
     showCelebration(timerState.isBreak ? '🎉' : '✅');
     
     if (!timerState.isBreak) {
-        // Completed a focus session
         timerState.sessionsCompleted++;
+        addSessionToHistory('focus');
+        showNotification('Focus Session Complete!', 'Great work! Time for a break.');
         updateStats();
         saveData();
         
-        // Switch to break
         timerState.isBreak = true;
         const breakMinutes = (timerState.sessionsCompleted % 4 === 0) 
             ? parseInt(document.getElementById('longBreakTime').value)
             : parseInt(document.getElementById('breakTime').value);
         timerState.timeLeft = breakMinutes * 60;
         timerState.totalTime = breakMinutes * 60;
+        document.getElementById('skipBtn').style.display = 'inline-block';
     } else {
-        // Completed a break
+        addSessionToHistory('break');
+        showNotification('Break Complete!', 'Ready to focus again?');
         timerState.isBreak = false;
         const focusMinutes = parseInt(document.getElementById('focusTime').value);
         timerState.timeLeft = focusMinutes * 60;
         timerState.totalTime = focusMinutes * 60;
+        document.getElementById('skipBtn').style.display = 'none';
     }
     
     updateTimerDisplay();
     updateTimerMode();
     updateProgressRing();
     document.getElementById('startBtn').textContent = 'Start';
+    
+    if (settings.autoStart) {
+        setTimeout(() => startTimer(), 2000);
+    }
 }
 
 function updateTimerDisplay() {
@@ -1072,6 +1490,13 @@ function updateTimerDisplay() {
     const seconds = timerState.timeLeft % 60;
     document.getElementById('timerDisplay').textContent = 
         `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    
+    // Update page title
+    if (timerState.isRunning) {
+        document.title = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')} - Focus Flow`;
+    } else {
+        document.title = 'Focus Flow - Pomodoro Timer';
+    }
 }
 
 function updateTimerMode() {
@@ -1115,14 +1540,12 @@ function addTodo() {
     if (!text) return;
     
     if (timerState.editingTodoId !== null) {
-        // Update existing todo
         const todo = todos.find(t => t.id === timerState.editingTodoId);
         if (todo) {
             todo.text = text;
             timerState.editingTodoId = null;
         }
     } else {
-        // Add new todo
         const todo = {
             id: todoIdCounter++,
             text: text,
@@ -1142,7 +1565,6 @@ function toggleTodo(id) {
     if (todo) {
         todo.completed = !todo.completed;
         if (todo.completed) {
-            // Play task complete sound
             playTaskCompleteSound(volumeSettings.taskComplete);
             showCelebration(['🎉', '✨', '🌟', '💪', '🔥'][Math.floor(Math.random() * 5)]);
         }
@@ -1172,7 +1594,7 @@ function renderTodos() {
     const list = document.getElementById('todoList');
     
     if (todos.length === 0) {
-        list.innerHTML = '<p style="text-align:center;color:#999;padding:40px 20px;">No tasks yet. Add one to get started! 🚀</p>';
+        list.innerHTML = '<p style="text-align:center;color:var(--text-muted);padding:40px 20px;">No tasks yet. Add one to get started! 🚀</p>';
         return;
     }
     
@@ -1204,7 +1626,7 @@ function escapeHtml(text) {
     return div.innerHTML;
 }
 
-// Volume control handlers (now supports up to 200%)
+// Volume control handlers
 function updateVolumeDisplays() {
     document.getElementById('volumeTimerStartValue').textContent = 
         Math.round(volumeSettings.timerStart * 100) + '%';
@@ -1232,6 +1654,59 @@ document.getElementById('volumeTaskComplete').addEventListener('input', function
     saveVolumeSettings();
 });
 
+// Settings toggle handlers
+document.getElementById('autoStartToggle').addEventListener('change', function(e) {
+    settings.autoStart = e.target.checked;
+    saveSettings();
+});
+
+document.getElementById('notificationsToggle').addEventListener('change', function(e) {
+    settings.notifications = e.target.checked;
+    if (e.target.checked) requestNotificationPermission();
+    saveSettings();
+});
+
+document.getElementById('ambientSoundsToggle').addEventListener('change', function(e) {
+    settings.ambientSounds = e.target.checked;
+    if (e.target.checked && timerState.isRunning && !timerState.isBreak) {
+        startAmbientSound();
+    } else {
+        stopAmbientSound();
+    }
+    saveSettings();
+});
+
+// Keyboard shortcuts
+document.addEventListener('keydown', function(e) {
+    // Don't trigger shortcuts when typing in input fields
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+    
+    // Close settings with Escape
+    if (e.key === 'Escape' && document.getElementById('settingsPanel').classList.contains('active')) {
+        closeSettings();
+        return;
+    }
+    
+    switch(e.key.toLowerCase()) {
+        case ' ':
+            e.preventDefault();
+            toggleTimer();
+            break;
+        case 'r':
+            e.preventDefault();
+            resetTimer();
+            break;
+        case 's':
+            e.preventDefault();
+            if (timerState.isBreak) skipBreak();
+            break;
+        case 'f':
+            e.preventDefault();
+            toggleFullscreen();
+            break;
+    }
+});
+
 // Initialize
 loadData();
 updateProgressRing();
@@ -1243,13 +1718,6 @@ updateProgressRing();
             resetTimer();
         }
     });
-});
-
-// Close settings with Escape key
-document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape' && document.getElementById('settingsPanel').classList.contains('active')) {
-        closeSettings();
-    }
 });
 </script>
 </body>
