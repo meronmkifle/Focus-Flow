@@ -769,27 +769,27 @@ body {
             <div class="volume-sliders">
                 <div class="volume-slider-group">
                     <label>
-                        <span>Timer Start</span>
-                        <span class="volume-value" id="volumeTimerStartValue">70%</span>
+                        <span>Timer Start 🎵</span>
+                        <span class="volume-value" id="volumeTimerStartValue">80%</span>
                     </label>
-                    <input type="range" class="volume-slider" id="volumeTimerStart" min="0" max="100" value="70">
-                    <button class="test-sound-btn" onclick="testSound('timerStartSound', 'timerStart')">🔊 Test Sound</button>
+                    <input type="range" class="volume-slider" id="volumeTimerStart" min="0" max="100" value="80">
+                    <button class="test-sound-btn" onclick="testSound('timerStart')">🔊 Test Sound</button>
                 </div>
                 <div class="volume-slider-group">
                     <label>
-                        <span>Timer Complete</span>
-                        <span class="volume-value" id="volumeTimerCompleteValue">80%</span>
+                        <span>Timer Complete 🎉</span>
+                        <span class="volume-value" id="volumeTimerCompleteValue">85%</span>
                     </label>
-                    <input type="range" class="volume-slider" id="volumeTimerComplete" min="0" max="100" value="80">
-                    <button class="test-sound-btn" onclick="testSound('timerCompleteSound', 'timerComplete')">🔊 Test Sound</button>
+                    <input type="range" class="volume-slider" id="volumeTimerComplete" min="0" max="100" value="85">
+                    <button class="test-sound-btn" onclick="testSound('timerComplete')">🔊 Test Sound</button>
                 </div>
                 <div class="volume-slider-group">
                     <label>
-                        <span>Task Complete</span>
-                        <span class="volume-value" id="volumeTaskCompleteValue">60%</span>
+                        <span>Task Complete ✨</span>
+                        <span class="volume-value" id="volumeTaskCompleteValue">75%</span>
                     </label>
-                    <input type="range" class="volume-slider" id="volumeTaskComplete" min="0" max="100" value="60">
-                    <button class="test-sound-btn" onclick="testSound('taskCompleteSound', 'taskComplete')">🔊 Test Sound</button>
+                    <input type="range" class="volume-slider" id="volumeTaskComplete" min="0" max="100" value="75">
+                    <button class="test-sound-btn" onclick="testSound('taskComplete')">🔊 Test Sound</button>
                 </div>
             </div>
         </div>
@@ -875,144 +875,6 @@ body {
 </div>
 
 <script>
-// ==================== WEB AUDIO API - PROFESSIONAL SOUND GENERATION ====================
-const AudioContext = window.AudioContext || window.webkitAudioContext;
-const audioContext = new AudioContext();
-
-// Timer Start Sound - Soft double beep
-function playTimerStartSound(volume = 0.7) {
-    // Resume audio context if suspended (for mobile browsers)
-    if (audioContext.state === 'suspended') {
-        audioContext.resume();
-    }
-    
-    const currentTime = audioContext.currentTime;
-    
-    // First beep
-    const osc1 = audioContext.createOscillator();
-    const gain1 = audioContext.createGain();
-    
-    osc1.connect(gain1);
-    gain1.connect(audioContext.destination);
-    
-    osc1.frequency.setValueAtTime(800, currentTime);
-    gain1.gain.setValueAtTime(volume * 0.3, currentTime);
-    gain1.gain.exponentialRampToValueAtTime(0.01, currentTime + 0.1);
-    
-    osc1.start(currentTime);
-    osc1.stop(currentTime + 0.1);
-    
-    // Second beep (slightly higher pitch)
-    const osc2 = audioContext.createOscillator();
-    const gain2 = audioContext.createGain();
-    
-    osc2.connect(gain2);
-    gain2.connect(audioContext.destination);
-    
-    osc2.frequency.setValueAtTime(1000, currentTime + 0.15);
-    gain2.gain.setValueAtTime(volume * 0.3, currentTime + 0.15);
-    gain2.gain.exponentialRampToValueAtTime(0.01, currentTime + 0.25);
-    
-    osc2.start(currentTime + 0.15);
-    osc2.stop(currentTime + 0.25);
-}
-
-// Timer Complete Sound - Beautiful bell chime with harmonics
-function playTimerCompleteSound(volume = 0.8) {
-    if (audioContext.state === 'suspended') {
-        audioContext.resume();
-    }
-    
-    const currentTime = audioContext.currentTime;
-    
-    // Major chord: C5, E5, G5 (523.25, 659.25, 783.99 Hz)
-    const frequencies = [523.25, 659.25, 783.99];
-    
-    frequencies.forEach((freq, index) => {
-        const osc = audioContext.createOscillator();
-        const gain = audioContext.createGain();
-        
-        osc.connect(gain);
-        gain.connect(audioContext.destination);
-        
-        osc.type = 'sine';
-        osc.frequency.setValueAtTime(freq, currentTime + index * 0.1);
-        
-        gain.gain.setValueAtTime(0, currentTime + index * 0.1);
-        gain.gain.linearRampToValueAtTime(volume * 0.4, currentTime + index * 0.1 + 0.01);
-        gain.gain.exponentialRampToValueAtTime(0.01, currentTime + index * 0.1 + 1.5);
-        
-        osc.start(currentTime + index * 0.1);
-        osc.stop(currentTime + index * 0.1 + 1.5);
-    });
-    
-    // Add bass note for richness (C3 - 130.81 Hz)
-    const bassOsc = audioContext.createOscillator();
-    const bassGain = audioContext.createGain();
-    
-    bassOsc.connect(bassGain);
-    bassGain.connect(audioContext.destination);
-    
-    bassOsc.type = 'sine';
-    bassOsc.frequency.setValueAtTime(130.81, currentTime);
-    
-    bassGain.gain.setValueAtTime(0, currentTime);
-    bassGain.gain.linearRampToValueAtTime(volume * 0.2, currentTime + 0.01);
-    bassGain.gain.exponentialRampToValueAtTime(0.01, currentTime + 2);
-    
-    bassOsc.start(currentTime);
-    bassOsc.stop(currentTime + 2);
-}
-
-// Task Complete Sound - Uplifting success chime (ascending notes)
-function playTaskCompleteSound(volume = 0.6) {
-    if (audioContext.state === 'suspended') {
-        audioContext.resume();
-    }
-    
-    const currentTime = audioContext.currentTime;
-    
-    // Ascending scale: E5, G5, C6, E6 (659.25, 783.99, 1046.50, 1318.51 Hz)
-    const frequencies = [659.25, 783.99, 1046.50, 1318.51];
-    
-    frequencies.forEach((freq, index) => {
-        const osc = audioContext.createOscillator();
-        const gain = audioContext.createGain();
-        
-        osc.connect(gain);
-        gain.connect(audioContext.destination);
-        
-        osc.type = 'sine';
-        osc.frequency.setValueAtTime(freq, currentTime + index * 0.08);
-        
-        gain.gain.setValueAtTime(0, currentTime + index * 0.08);
-        gain.gain.linearRampToValueAtTime(volume * 0.3, currentTime + index * 0.08 + 0.01);
-        gain.gain.exponentialRampToValueAtTime(0.01, currentTime + index * 0.08 + 0.6);
-        
-        osc.start(currentTime + index * 0.08);
-        osc.stop(currentTime + index * 0.08 + 0.6);
-    });
-    
-    // Add high sparkle note (C7 - 2093 Hz)
-    const sparkle = audioContext.createOscillator();
-    const sparkleGain = audioContext.createGain();
-    
-    sparkle.connect(sparkleGain);
-    sparkleGain.connect(audioContext.destination);
-    
-    sparkle.type = 'sine';
-    sparkle.frequency.setValueAtTime(2093, currentTime + 0.3);
-    
-    sparkleGain.gain.setValueAtTime(0, currentTime + 0.3);
-    sparkleGain.gain.linearRampToValueAtTime(volume * 0.2, currentTime + 0.31);
-    sparkleGain.gain.exponentialRampToValueAtTime(0.01, currentTime + 0.8);
-    
-    sparkle.start(currentTime + 0.3);
-    sparkle.stop(currentTime + 0.8);
-}
-
-// ==================== MAIN APP CODE ====================
-
 let timerState = {
     isRunning: false,
     isPaused: false,
@@ -1029,10 +891,103 @@ let todoIdCounter = 0;
 
 // Volume settings
 let volumeSettings = {
-    timerStart: 0.7,
-    timerComplete: 0.8,
-    taskComplete: 0.6
+    timerStart: 0.8,
+    timerComplete: 0.85,
+    taskComplete: 0.75
 };
+
+// Audio Context for generating sounds
+let audioContext = null;
+
+// Initialize Audio Context
+function initAudioContext() {
+    if (!audioContext) {
+        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    }
+}
+
+// Generate Timer Start Sound - Gentle bell chime
+function playTimerStartSound(volume) {
+    initAudioContext();
+    
+    const now = audioContext.currentTime;
+    
+    // Create oscillator for bell sound (C5 - 523 Hz)
+    const oscillator = audioContext.createOscillator();
+    const gainNode = audioContext.createGain();
+    
+    oscillator.connect(gainNode);
+    gainNode.connect(audioContext.destination);
+    
+    oscillator.frequency.value = 523; // C5
+    oscillator.type = 'sine';
+    
+    // Envelope for bell-like decay
+    gainNode.gain.setValueAtTime(volume * 0.5, now);
+    gainNode.gain.exponentialRampToValueAtTime(0.01, now + 0.8);
+    
+    oscillator.start(now);
+    oscillator.stop(now + 0.8);
+}
+
+// Generate Timer Complete Sound - Cheerful ascending chimes (like iPhone "Constellation")
+function playTimerCompleteSound(volume) {
+    initAudioContext();
+    
+    const now = audioContext.currentTime;
+    
+    // Play a sequence of ascending notes (C5, E5, G5, C6)
+    const notes = [523, 659, 784, 1047];
+    
+    notes.forEach((freq, index) => {
+        const oscillator = audioContext.createOscillator();
+        const gainNode = audioContext.createGain();
+        
+        oscillator.connect(gainNode);
+        gainNode.connect(audioContext.destination);
+        
+        oscillator.frequency.value = freq;
+        oscillator.type = 'sine';
+        
+        const startTime = now + (index * 0.15);
+        
+        // Bell-like envelope
+        gainNode.gain.setValueAtTime(0, startTime);
+        gainNode.gain.linearRampToValueAtTime(volume * 0.6, startTime + 0.01);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, startTime + 0.5);
+        
+        oscillator.start(startTime);
+        oscillator.stop(startTime + 0.5);
+    });
+}
+
+// Generate Task Complete Sound - Pleasant "ding" (like notification bell)
+function playTaskCompleteSound(volume) {
+    initAudioContext();
+    
+    const now = audioContext.currentTime;
+    
+    // Create two oscillators for richer sound (E6 and G6)
+    [1319, 1568].forEach((freq, index) => {
+        const oscillator = audioContext.createOscillator();
+        const gainNode = audioContext.createGain();
+        
+        oscillator.connect(gainNode);
+        gainNode.connect(audioContext.destination);
+        
+        oscillator.frequency.value = freq;
+        oscillator.type = 'sine';
+        
+        const startTime = now + (index * 0.05);
+        
+        // Quick, bright ding
+        gainNode.gain.setValueAtTime(volume * 0.5, startTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, startTime + 0.4);
+        
+        oscillator.start(startTime);
+        oscillator.stop(startTime + 0.4);
+    });
+}
 
 // Settings panel functions
 function openSettings() {
@@ -1048,8 +1003,20 @@ function closeSettings() {
 }
 
 // Test sound function
-function testSound(soundType, volumeType) {
-    playSound(soundType, volumeSettings[volumeType]);
+function testSound(soundType) {
+    const volume = volumeSettings[soundType];
+    
+    switch(soundType) {
+        case 'timerStart':
+            playTimerStartSound(volume);
+            break;
+        case 'timerComplete':
+            playTimerCompleteSound(volume);
+            break;
+        case 'taskComplete':
+            playTaskCompleteSound(volume);
+            break;
+    }
 }
 
 // Load saved data
@@ -1096,21 +1063,6 @@ function saveVolumeSettings() {
     localStorage.setItem('focusFlowVolume', JSON.stringify(volumeSettings));
 }
 
-// Play sound with volume control - using Web Audio API
-function playSound(soundType, volumeLevel) {
-    switch(soundType) {
-        case 'timerStartSound':
-            playTimerStartSound(volumeLevel);
-            break;
-        case 'timerCompleteSound':
-            playTimerCompleteSound(volumeLevel);
-            break;
-        case 'taskCompleteSound':
-            playTaskCompleteSound(volumeLevel);
-            break;
-    }
-}
-
 // Timer Functions
 function toggleTimer() {
     if (!timerState.isRunning) {
@@ -1127,7 +1079,7 @@ function startTimer() {
         document.getElementById('timerCircle').classList.add('active');
         
         // Play start sound
-        playSound('timerStartSound', volumeSettings.timerStart);
+        playTimerStartSound(volumeSettings.timerStart);
         
         timerState.interval = setInterval(() => {
             timerState.timeLeft--;
@@ -1165,7 +1117,7 @@ function completeSession() {
     timerState.isRunning = false;
     
     // Play completion sound
-    playSound('timerCompleteSound', volumeSettings.timerComplete);
+    playTimerCompleteSound(volumeSettings.timerComplete);
     
     // Show celebration
     showCelebration(timerState.isBreak ? '🎉' : '✅');
@@ -1273,7 +1225,7 @@ function toggleTodo(id) {
         todo.completed = !todo.completed;
         if (todo.completed) {
             // Play task complete sound
-            playSound('taskCompleteSound', volumeSettings.taskComplete);
+            playTaskCompleteSound(volumeSettings.taskComplete);
             showCelebration(['🎉', '✨', '🌟', '💪', '🔥'][Math.floor(Math.random() * 5)]);
         }
         renderTodos();
