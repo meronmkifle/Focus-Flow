@@ -269,6 +269,16 @@ body {
     color:white;
 }
 
+.audio-note {
+    font-size:0.85em;
+    color:#888;
+    margin-top:15px;
+    padding:12px;
+    background:#f8f9fa;
+    border-radius:8px;
+    border-left:3px solid #667eea;
+}
+
 .main-layout {
     display:grid;
     grid-template-columns:1fr 1fr;
@@ -312,92 +322,128 @@ body {
 
 @keyframes pulse {
     0%, 100% {box-shadow:0 10px 40px rgba(102,126,234,0.4);}
-    50% {box-shadow:0 10px 60px rgba(102,126,234,0.8);}
+    50% {box-shadow:0 10px 60px rgba(102,126,234,0.8), 0 0 30px rgba(102,126,234,0.5);}
+}
+
+.progress-ring {
+    position:absolute;
+    transform:rotate(-90deg);
+}
+
+.progress-ring-circle {
+    fill:none;
+    stroke:rgba(255,255,255,0.3);
+    stroke-width:8;
+}
+
+.progress-ring-circle-progress {
+    fill:none;
+    stroke:white;
+    stroke-width:8;
+    stroke-linecap:round;
+    transition:stroke-dashoffset 0.3s ease;
 }
 
 .timer-display {
     font-size:3.5em;
     font-weight:700;
     color:white;
-    font-family:'Courier New', monospace;
+    margin:10px 0;
+    font-variant-numeric:tabular-nums;
+    z-index:10;
 }
 
 .timer-label {
+    font-size:0.9em;
     color:rgba(255,255,255,0.9);
-    font-size:1em;
-    margin-top:10px;
-    text-transform:uppercase;
+    font-weight:600;
     letter-spacing:2px;
+    z-index:10;
 }
 
 .timer-controls {
     display:flex;
     gap:15px;
     margin-top:25px;
-    flex-wrap:wrap;
-    justify-content:center;
 }
 
 .btn {
-    padding:15px 30px;
+    padding:12px 30px;
     border:none;
-    border-radius:50px;
-    font-size:1.1em;
+    border-radius:25px;
+    font-size:1em;
     font-weight:600;
     cursor:pointer;
     transition:all 0.3s ease;
-    box-shadow:0 5px 15px rgba(0,0,0,0.2);
+    box-shadow:0 4px 15px rgba(0,0,0,0.2);
 }
 
-.btn-start {
+.btn-primary {
     background:linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color:white;
 }
 
-.btn-start:hover {
+.btn-primary:hover {
     transform:translateY(-2px);
-    box-shadow:0 8px 20px rgba(102,126,234,0.4);
+    box-shadow:0 6px 20px rgba(102,126,234,0.4);
 }
 
-.btn-pause {
-    background:linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+.btn-secondary {
+    background:white;
+    color:#667eea;
+    border:2px solid #667eea;
+}
+
+.btn-secondary:hover {
+    background:#667eea;
     color:white;
 }
 
-.btn-reset {
-    background:linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
-    color:#333;
-}
-
 .settings {
-    margin-top:25px;
-    display:flex;
-    gap:15px;
-    flex-wrap:wrap;
-    justify-content:center;
+    background:white;
+    padding:20px;
+    border-radius:15px;
+    margin-top:20px;
+    box-shadow:0 4px 15px rgba(0,0,0,0.1);
 }
 
-.setting-group {
+.settings h3 {
+    font-size:1.1em;
+    color:#333;
+    margin-bottom:15px;
     display:flex;
-    flex-direction:column;
     align-items:center;
     gap:8px;
 }
 
+.setting-group {
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:15px;
+}
+
+.setting-group:last-child {
+    margin-bottom:0;
+}
+
 .setting-group label {
-    font-size:0.9em;
+    font-size:0.95em;
     color:#666;
-    font-weight:600;
 }
 
 .setting-group input {
-    width:80px;
+    width:70px;
     padding:8px;
-    border:2px solid #667eea;
-    border-radius:10px;
+    border:2px solid #e0e0e0;
+    border-radius:8px;
+    font-size:0.95em;
     text-align:center;
-    font-size:1em;
-    font-weight:600;
+}
+
+.setting-group input:focus {
+    outline:none;
+    border-color:#667eea;
 }
 
 /* Todo Section */
@@ -406,17 +452,13 @@ body {
     flex-direction:column;
 }
 
-.todo-header {
+.todo-section h2 {
     font-size:1.5em;
     color:#333;
-    margin-bottom:15px;
+    margin-bottom:20px;
     display:flex;
     align-items:center;
     gap:10px;
-}
-
-.todo-header span {
-    font-size:1.2em;
 }
 
 .todo-input-group {
@@ -429,7 +471,7 @@ body {
     flex:1;
     padding:12px 20px;
     border:2px solid #e0e0e0;
-    border-radius:50px;
+    border-radius:25px;
     font-size:1em;
     transition:all 0.3s ease;
 }
@@ -445,22 +487,23 @@ body {
     background:linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color:white;
     border:none;
-    border-radius:50px;
+    border-radius:25px;
     font-size:1em;
     font-weight:600;
     cursor:pointer;
     transition:all 0.3s ease;
-    white-space:nowrap;
+    box-shadow:0 4px 15px rgba(102,126,234,0.3);
 }
 
 .btn-add:hover {
-    transform:scale(1.05);
+    transform:translateY(-2px);
+    box-shadow:0 6px 20px rgba(102,126,234,0.4);
 }
 
 .todo-list {
     max-height:400px;
     overflow-y:auto;
-    padding-right:10px;
+    padding-right:5px;
 }
 
 .todo-list::-webkit-scrollbar {
@@ -473,7 +516,7 @@ body {
 }
 
 .todo-list::-webkit-scrollbar-thumb {
-    background:#667eea;
+    background:linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     border-radius:10px;
 }
 
@@ -485,23 +528,17 @@ body {
     display:flex;
     align-items:center;
     gap:15px;
-    box-shadow:0 3px 10px rgba(0,0,0,0.1);
     transition:all 0.3s ease;
-    animation:slideIn 0.3s ease;
-}
-
-@keyframes slideIn {
-    from {transform:translateX(-20px);opacity:0;}
-    to {transform:translateX(0);opacity:1;}
+    box-shadow:0 2px 8px rgba(0,0,0,0.1);
 }
 
 .todo-item:hover {
-    transform:translateY(-2px);
-    box-shadow:0 5px 15px rgba(0,0,0,0.15);
+    transform:translateX(5px);
+    box-shadow:0 4px 12px rgba(0,0,0,0.15);
 }
 
 .todo-item.completed {
-    opacity:0.7;
+    opacity:0.6;
 }
 
 .todo-item.completed .todo-text {
@@ -510,24 +547,21 @@ body {
 }
 
 .todo-checkbox {
-    width:24px;
-    height:24px;
+    width:22px;
+    height:22px;
     cursor:pointer;
     accent-color:#667eea;
-    flex-shrink:0;
 }
 
 .todo-text {
     flex:1;
     font-size:1em;
     color:#333;
-    word-break:break-word;
 }
 
 .todo-actions {
     display:flex;
     gap:8px;
-    flex-shrink:0;
 }
 
 .btn-icon {
@@ -545,80 +579,79 @@ body {
     transform:scale(1.1);
 }
 
-/* Celebration */
+.btn-edit:hover {
+    background:rgba(255,193,7,0.1);
+}
+
+.btn-delete:hover {
+    background:rgba(244,67,54,0.1);
+}
+
+/* Stats Section */
+.stats {
+    display:flex;
+    gap:20px;
+    margin-top:30px;
+}
+
+.stat-card {
+    flex:1;
+    background:linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding:20px;
+    border-radius:15px;
+    text-align:center;
+    color:white;
+    box-shadow:0 4px 15px rgba(102,126,234,0.3);
+    transition:all 0.3s ease;
+}
+
+.stat-card:hover {
+    transform:translateY(-5px);
+    box-shadow:0 8px 25px rgba(102,126,234,0.4);
+}
+
+.stat-icon {
+    font-size:2em;
+    margin-bottom:10px;
+}
+
+.stat-number {
+    font-size:2em;
+    font-weight:700;
+    margin-bottom:5px;
+}
+
+.stat-label {
+    font-size:0.9em;
+    opacity:0.9;
+}
+
+/* Celebration animation */
 .celebration {
     position:fixed;
     top:50%;
     left:50%;
     transform:translate(-50%, -50%);
-    font-size:8em;
-    z-index:1000;
-    animation:celebrate 1s ease;
+    font-size:5em;
+    animation:celebrate 1s ease-out;
     pointer-events:none;
+    z-index:10000;
 }
 
 @keyframes celebrate {
-    0% {transform:translate(-50%, -50%) scale(0) rotate(0deg);opacity:0;}
+    0% {transform:translate(-50%, -50%) scale(0) rotate(0deg);opacity:1;}
     50% {transform:translate(-50%, -50%) scale(1.2) rotate(180deg);opacity:1;}
     100% {transform:translate(-50%, -50%) scale(1) rotate(360deg);opacity:0;}
 }
 
-/* Stats */
-.stats {
-    display:grid;
-    grid-template-columns:repeat(3, 1fr);
-    gap:20px;
-    padding:20px;
-    background:linear-gradient(135deg, rgba(102,126,234,0.1) 0%, rgba(118,75,162,0.1) 100%);
-    border-radius:20px;
-}
-
-.stat-item {
-    text-align:center;
-}
-
-.stat-value {
-    font-size:2.5em;
-    font-weight:700;
-    background:linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    -webkit-background-clip:text;
-    -webkit-text-fill-color:transparent;
-}
-
-.stat-label {
-    font-size:0.9em;
-    color:#666;
-    margin-top:5px;
-}
-
-/* Responsive Mobile Styles */
+/* Responsive Design */
 @media (max-width: 768px) {
-    body {
-        padding:10px;
-    }
-    
     .container {
-        padding:20px;
-        border-radius:20px;
-    }
-    
-    .header h1 {
-        font-size:1.8em;
-    }
-    
-    .header p {
-        font-size:0.95em;
-    }
-    
-    .settings-icon-btn {
-        width:40px;
-        height:40px;
-        font-size:1.3em;
+        padding:25px;
     }
     
     .main-layout {
         grid-template-columns:1fr;
-        gap:30px;
     }
     
     .timer-circle {
@@ -627,208 +660,64 @@ body {
     }
     
     .timer-display {
-        font-size:2.8em;
-    }
-    
-    .timer-label {
-        font-size:0.9em;
-    }
-    
-    .timer-controls {
-        gap:10px;
-    }
-    
-    .btn {
-        padding:12px 24px;
-        font-size:1em;
-    }
-    
-    .settings {
-        gap:10px;
-    }
-    
-    .setting-group input {
-        width:70px;
-        padding:6px;
-        font-size:0.95em;
-    }
-    
-    .todo-header {
-        font-size:1.3em;
-    }
-    
-    .todo-input-group {
-        flex-direction:column;
-    }
-    
-    .btn-add {
-        width:100%;
+        font-size:2.5em;
     }
     
     .stats {
-        grid-template-columns:1fr;
-        gap:15px;
+        flex-direction:column;
     }
     
-    .stat-value {
+    .header h1 {
         font-size:2em;
-    }
-    
-    .stat-label {
-        font-size:0.85em;
-    }
-    
-    .floating-emoji {
-        font-size:1.5em;
     }
     
     .settings-panel {
         max-width:100%;
     }
-    
-    .celebration {
-        font-size:5em;
-    }
-}
-
-@media (max-width: 480px) {
-    .container {
-        padding:15px;
-    }
-    
-    .header h1 {
-        font-size:1.5em;
-    }
-    
-    .timer-circle {
-        width:200px;
-        height:200px;
-    }
-    
-    .timer-display {
-        font-size:2.3em;
-    }
-    
-    .settings {
-        gap:8px;
-    }
-    
-    .setting-group {
-        flex:1;
-        min-width:90px;
-    }
-    
-    .setting-group label {
-        font-size:0.8em;
-    }
-    
-    .setting-group input {
-        width:100%;
-        padding:6px;
-    }
-}
-
-/* Landscape orientation adjustments */
-@media (max-width: 768px) and (orientation: landscape) {
-    .timer-circle {
-        width:180px;
-        height:180px;
-    }
-    
-    .timer-display {
-        font-size:2.2em;
-    }
-    
-    .stats {
-        grid-template-columns:repeat(3, 1fr);
-    }
 }
 </style>
 </head>
 <body>
-
-<!-- Floating emojis -->
-<div class="floating-emoji" style="left:10%;top:20%;">⏰</div>
-<div class="floating-emoji" style="left:80%;top:30%;animation-delay:-5s;">✅</div>
-<div class="floating-emoji" style="left:15%;top:70%;animation-delay:-10s;">🎯</div>
-<div class="floating-emoji" style="left:85%;top:60%;animation-delay:-3s;">📝</div>
-<div class="floating-emoji" style="left:50%;top:10%;animation-delay:-7s;">🚀</div>
-
-<!-- Settings Overlay -->
-<div class="settings-overlay" id="settingsOverlay" onclick="closeSettings()"></div>
-
-<!-- Settings Panel -->
-<div class="settings-panel" id="settingsPanel">
-    <div class="settings-panel-header">
-        <h2>⚙️ Settings</h2>
-        <button class="close-settings-btn" onclick="closeSettings()">✕</button>
-    </div>
-    <div class="settings-panel-content">
-        <div class="volume-section">
-            <h3>🔊 Sound Volume</h3>
-            <div class="volume-sliders">
-                <div class="volume-slider-group">
-                    <label>
-                        <span>Timer Start 🎵</span>
-                        <span class="volume-value" id="volumeTimerStartValue">80%</span>
-                    </label>
-                    <input type="range" class="volume-slider" id="volumeTimerStart" min="0" max="100" value="80">
-                    <button class="test-sound-btn" onclick="testSound('timerStart')">🔊 Test Sound</button>
-                </div>
-                <div class="volume-slider-group">
-                    <label>
-                        <span>Timer Complete 🎉</span>
-                        <span class="volume-value" id="volumeTimerCompleteValue">85%</span>
-                    </label>
-                    <input type="range" class="volume-slider" id="volumeTimerComplete" min="0" max="100" value="85">
-                    <button class="test-sound-btn" onclick="testSound('timerComplete')">🔊 Test Sound</button>
-                </div>
-                <div class="volume-slider-group">
-                    <label>
-                        <span>Task Complete ✨</span>
-                        <span class="volume-value" id="volumeTaskCompleteValue">75%</span>
-                    </label>
-                    <input type="range" class="volume-slider" id="volumeTaskComplete" min="0" max="100" value="75">
-                    <button class="test-sound-btn" onclick="testSound('taskComplete')">🔊 Test Sound</button>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+<!-- Floating background emojis -->
+<div class="floating-emoji" style="top:10%;left:10%;animation-delay:0s;">🎯</div>
+<div class="floating-emoji" style="top:20%;right:15%;animation-delay:2s;">⏰</div>
+<div class="floating-emoji" style="bottom:15%;left:20%;animation-delay:4s;">✨</div>
+<div class="floating-emoji" style="bottom:25%;right:10%;animation-delay:6s;">🚀</div>
 
 <div class="container">
     <div class="header">
+        <h1>🎯 Focus Flow</h1>
+        <p>Stay focused, achieve more</p>
         <button class="settings-icon-btn" onclick="openSettings()" title="Settings">⚙️</button>
-        <h1>⏰ Focus Flow</h1>
-        <p>Stay productive with the Pomodoro Technique</p>
     </div>
 
     <div class="main-layout">
         <!-- Timer Section -->
         <div class="timer-section">
             <div class="timer-circle" id="timerCircle">
-                <svg style="position:absolute;width:100%;height:100%;transform:rotate(-90deg);">
-                    <circle cx="140" cy="140" r="130" stroke="rgba(255,255,255,0.2)" stroke-width="8" fill="none" />
-                    <circle id="progressCircle" cx="140" cy="140" r="130" stroke="white" stroke-width="8" fill="none" 
-                        stroke-dasharray="816.81" stroke-dashoffset="816.81" stroke-linecap="round" 
-                        style="transition: stroke-dashoffset 1s linear;" />
+                <svg class="progress-ring" width="280" height="280">
+                    <circle class="progress-ring-circle" cx="140" cy="140" r="130"></circle>
+                    <circle class="progress-ring-circle-progress" id="progressCircle" 
+                            cx="140" cy="140" r="130"
+                            style="stroke-dasharray: 817; stroke-dashoffset: 817;"></circle>
                 </svg>
-                <div class="timer-display" id="timerDisplay">25:00</div>
                 <div class="timer-label" id="timerLabel">FOCUS TIME</div>
+                <div class="timer-display" id="timerDisplay">25:00</div>
             </div>
             
             <div class="timer-controls">
-                <button class="btn btn-start" id="startBtn" onclick="toggleTimer()">Start</button>
-                <button class="btn btn-reset" onclick="resetTimer()">Reset</button>
+                <button class="btn btn-primary" id="startBtn" onclick="toggleTimer()">Start</button>
+                <button class="btn btn-secondary" onclick="resetTimer()">Reset</button>
             </div>
-            
+
             <div class="settings">
+                <h3>⚙️ Timer Settings</h3>
                 <div class="setting-group">
-                    <label>Focus (min)</label>
+                    <label>Focus Time (min)</label>
                     <input type="number" id="focusTime" value="25" min="1" max="60">
                 </div>
                 <div class="setting-group">
-                    <label>Break (min)</label>
+                    <label>Break Time (min)</label>
                     <input type="number" id="breakTime" value="5" min="1" max="30">
                 </div>
                 <div class="setting-group">
@@ -840,44 +729,131 @@ body {
 
         <!-- Todo Section -->
         <div class="todo-section">
-            <div class="todo-header">
-                <span>📝</span>
-                <span>Today's Tasks</span>
-            </div>
+            <h2>📝 Tasks</h2>
             
             <div class="todo-input-group">
-                <input type="text" class="todo-input" id="todoInput" placeholder="Add a new task..." 
-                    onkeypress="if(event.key==='Enter')addTodo()">
-                <button class="btn-add" onclick="addTodo()">+ Add</button>
+                <input type="text" 
+                       class="todo-input" 
+                       id="todoInput" 
+                       placeholder="Add a new task..."
+                       onkeypress="if(event.key==='Enter') addTodo()">
+                <button class="btn-add" onclick="addTodo()">Add</button>
             </div>
-            
+
             <div class="todo-list" id="todoList">
                 <p style="text-align:center;color:#999;padding:40px 20px;">No tasks yet. Add one to get started! 🚀</p>
             </div>
         </div>
     </div>
 
-    <!-- Stats -->
+    <!-- Stats Section -->
     <div class="stats">
-        <div class="stat-item">
-            <div class="stat-value" id="completedCount">0</div>
+        <div class="stat-card">
+            <div class="stat-icon">✅</div>
+            <div class="stat-number" id="completedCount">0</div>
             <div class="stat-label">Tasks Completed</div>
         </div>
-        <div class="stat-item">
-            <div class="stat-value" id="focusSessionsCount">0</div>
+        <div class="stat-card">
+            <div class="stat-icon">🔥</div>
+            <div class="stat-number" id="focusSessionsCount">0</div>
             <div class="stat-label">Focus Sessions</div>
         </div>
-        <div class="stat-item">
-            <div class="stat-value" id="totalMinutes">0</div>
+        <div class="stat-card">
+            <div class="stat-icon">⏱️</div>
+            <div class="stat-number" id="totalMinutes">0</div>
             <div class="stat-label">Minutes Focused</div>
         </div>
     </div>
 </div>
 
+<!-- Settings Panel -->
+<div class="settings-overlay" id="settingsOverlay" onclick="closeSettings()"></div>
+<div class="settings-panel" id="settingsPanel">
+    <div class="settings-panel-header">
+        <h2>⚙️ Settings</h2>
+        <button class="close-settings-btn" onclick="closeSettings()">✕</button>
+    </div>
+    
+    <div class="settings-panel-content">
+        <div class="volume-section">
+            <h3>🔊 Sound Volume</h3>
+            <div class="volume-sliders">
+                <div class="volume-slider-group">
+                    <label>
+                        Timer Start Sound
+                        <span class="volume-value" id="volumeTimerStartValue">100%</span>
+                    </label>
+                    <input type="range" class="volume-slider" id="volumeTimerStart" 
+                           min="0" max="200" value="100">
+                    <button class="test-sound-btn" onclick="testTimerStartSound()">Test Sound</button>
+                </div>
+                
+                <div class="volume-slider-group">
+                    <label>
+                        Timer Complete Sound
+                        <span class="volume-value" id="volumeTimerCompleteValue">100%</span>
+                    </label>
+                    <input type="range" class="volume-slider" id="volumeTimerComplete" 
+                           min="0" max="200" value="100">
+                    <button class="test-sound-btn" onclick="testTimerCompleteSound()">Test Sound</button>
+                </div>
+                
+                <div class="volume-slider-group">
+                    <label>
+                        Task Complete Sound
+                        <span class="volume-value" id="volumeTaskCompleteValue">100%</span>
+                    </label>
+                    <input type="range" class="volume-slider" id="volumeTaskComplete" 
+                           min="0" max="200" value="100">
+                    <button class="test-sound-btn" onclick="testTaskCompleteSound()">Test Sound</button>
+                </div>
+            </div>
+            <div class="audio-note">
+                💡 <strong>Tip:</strong> Volume can go up to 200% for louder sounds. On mobile, tap any button first to enable audio.
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
+// Global Audio Context - initialized once on user interaction
+let audioContext = null;
+let audioInitialized = false;
+
+// Initialize audio context on first user interaction
+function initAudioContext() {
+    if (!audioContext) {
+        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    }
+    
+    // Resume context if it's suspended (common on mobile)
+    if (audioContext.state === 'suspended') {
+        audioContext.resume();
+    }
+    
+    audioInitialized = true;
+}
+
+// Add click listener to initialize audio on any user interaction
+document.addEventListener('click', function initAudio() {
+    initAudioContext();
+}, { once: false }); // Keep listening for mobile compatibility
+
+// Also try to initialize on touchstart for better mobile support
+document.addEventListener('touchstart', function initAudioTouch() {
+    initAudioContext();
+}, { once: false });
+
+// Volume settings with higher max (2.0 = 200%)
+let volumeSettings = {
+    timerStart: 1.0,
+    timerComplete: 1.0,
+    taskComplete: 1.0
+};
+
+// State management
 let timerState = {
     isRunning: false,
-    isPaused: false,
     isBreak: false,
     timeLeft: 25 * 60,
     totalTime: 25 * 60,
@@ -889,143 +865,84 @@ let timerState = {
 let todos = [];
 let todoIdCounter = 0;
 
-// Volume settings
-let volumeSettings = {
-    timerStart: 0.8,
-    timerComplete: 0.85,
-    taskComplete: 0.75
-};
-
-// Audio Context for generating sounds
-let audioContext = null;
-
-// Initialize Audio Context
-function initAudioContext() {
-    if (!audioContext) {
-        audioContext = new (window.AudioContext || window.webkitAudioContext)();
-    }
-}
-
-// Generate Timer Start Sound - Gentle bell chime
-function playTimerStartSound(volume) {
-    initAudioContext();
-    
-    const now = audioContext.currentTime;
-    
-    // Create oscillator for bell sound (C5 - 523 Hz)
-    const oscillator = audioContext.createOscillator();
-    const gainNode = audioContext.createGain();
-    
-    oscillator.connect(gainNode);
-    gainNode.connect(audioContext.destination);
-    
-    oscillator.frequency.value = 523; // C5
-    oscillator.type = 'sine';
-    
-    // Envelope for bell-like decay
-    gainNode.gain.setValueAtTime(volume * 0.5, now);
-    gainNode.gain.exponentialRampToValueAtTime(0.01, now + 0.8);
-    
-    oscillator.start(now);
-    oscillator.stop(now + 0.8);
-}
-
-// Generate Timer Complete Sound - Cheerful ascending chimes (like iPhone "Constellation")
-function playTimerCompleteSound(volume) {
-    initAudioContext();
-    
-    const now = audioContext.currentTime;
-    
-    // Play a sequence of ascending notes (C5, E5, G5, C6)
-    const notes = [523, 659, 784, 1047];
-    
-    notes.forEach((freq, index) => {
-        const oscillator = audioContext.createOscillator();
-        const gainNode = audioContext.createGain();
-        
-        oscillator.connect(gainNode);
-        gainNode.connect(audioContext.destination);
-        
-        oscillator.frequency.value = freq;
-        oscillator.type = 'sine';
-        
-        const startTime = now + (index * 0.15);
-        
-        // Bell-like envelope
-        gainNode.gain.setValueAtTime(0, startTime);
-        gainNode.gain.linearRampToValueAtTime(volume * 0.6, startTime + 0.01);
-        gainNode.gain.exponentialRampToValueAtTime(0.01, startTime + 0.5);
-        
-        oscillator.start(startTime);
-        oscillator.stop(startTime + 0.5);
-    });
-}
-
-// Generate Task Complete Sound - Pleasant "ding" (like notification bell)
-function playTaskCompleteSound(volume) {
-    initAudioContext();
-    
-    const now = audioContext.currentTime;
-    
-    // Create two oscillators for richer sound (E6 and G6)
-    [1319, 1568].forEach((freq, index) => {
-        const oscillator = audioContext.createOscillator();
-        const gainNode = audioContext.createGain();
-        
-        oscillator.connect(gainNode);
-        gainNode.connect(audioContext.destination);
-        
-        oscillator.frequency.value = freq;
-        oscillator.type = 'sine';
-        
-        const startTime = now + (index * 0.05);
-        
-        // Quick, bright ding
-        gainNode.gain.setValueAtTime(volume * 0.5, startTime);
-        gainNode.gain.exponentialRampToValueAtTime(0.01, startTime + 0.4);
-        
-        oscillator.start(startTime);
-        oscillator.stop(startTime + 0.4);
-    });
-}
-
 // Settings panel functions
 function openSettings() {
+    initAudioContext(); // Initialize audio when opening settings
     document.getElementById('settingsPanel').classList.add('active');
     document.getElementById('settingsOverlay').classList.add('active');
-    document.body.style.overflow = 'hidden';
 }
 
 function closeSettings() {
     document.getElementById('settingsPanel').classList.remove('active');
     document.getElementById('settingsOverlay').classList.remove('active');
-    document.body.style.overflow = 'auto';
 }
 
-// Test sound function
-function testSound(soundType) {
-    const volume = volumeSettings[soundType];
+// Improved sound functions with proper AudioContext management
+function createBeep(frequency, duration, volume) {
+    if (!audioContext) {
+        initAudioContext();
+    }
     
-    switch(soundType) {
-        case 'timerStart':
-            playTimerStartSound(volume);
-            break;
-        case 'timerComplete':
-            playTimerCompleteSound(volume);
-            break;
-        case 'taskComplete':
-            playTaskCompleteSound(volume);
-            break;
+    try {
+        const oscillator = audioContext.createOscillator();
+        const gainNode = audioContext.createGain();
+        
+        oscillator.connect(gainNode);
+        gainNode.connect(audioContext.destination);
+        
+        oscillator.frequency.value = frequency;
+        oscillator.type = 'sine';
+        
+        // Allow volume up to 2.0 (200%)
+        gainNode.gain.setValueAtTime(Math.min(volume, 2.0), audioContext.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + duration);
+        
+        oscillator.start(audioContext.currentTime);
+        oscillator.stop(audioContext.currentTime + duration);
+    } catch (error) {
+        console.warn('Audio playback failed:', error);
     }
 }
 
-// Load saved data
+function playTimerStartSound(volume = 1.0) {
+    initAudioContext();
+    createBeep(800, 0.15, volume);
+}
+
+function playTimerCompleteSound(volume = 1.0) {
+    initAudioContext();
+    // Play a pleasant three-tone melody
+    setTimeout(() => createBeep(523, 0.2, volume), 0);     // C
+    setTimeout(() => createBeep(659, 0.2, volume), 200);   // E
+    setTimeout(() => createBeep(784, 0.3, volume), 400);   // G
+}
+
+function playTaskCompleteSound(volume = 1.0) {
+    initAudioContext();
+    // Quick success sound
+    createBeep(880, 0.1, volume);
+    setTimeout(() => createBeep(1047, 0.15, volume), 100);
+}
+
+// Test sound functions
+function testTimerStartSound() {
+    playTimerStartSound(volumeSettings.timerStart);
+}
+
+function testTimerCompleteSound() {
+    playTimerCompleteSound(volumeSettings.timerComplete);
+}
+
+function testTaskCompleteSound() {
+    playTaskCompleteSound(volumeSettings.taskComplete);
+}
+
+// Load data from localStorage
 function loadData() {
-    const today = new Date().toDateString();
     const savedData = localStorage.getItem('focusFlowData');
-    
     if (savedData) {
         const data = JSON.parse(savedData);
+        const today = new Date().toDateString();
         if (data.date === today) {
             todos = data.todos || [];
             todoIdCounter = data.todoIdCounter || 0;
@@ -1035,7 +952,7 @@ function loadData() {
         }
     }
     
-    // Load volume settings
+    // Load volume settings (now supports up to 2.0)
     const savedVolume = localStorage.getItem('focusFlowVolume');
     if (savedVolume) {
         volumeSettings = JSON.parse(savedVolume);
@@ -1065,6 +982,7 @@ function saveVolumeSettings() {
 
 // Timer Functions
 function toggleTimer() {
+    initAudioContext(); // Ensure audio is initialized when starting timer
     if (!timerState.isRunning) {
         startTimer();
     } else {
@@ -1286,7 +1204,7 @@ function escapeHtml(text) {
     return div.innerHTML;
 }
 
-// Volume control handlers
+// Volume control handlers (now supports up to 200%)
 function updateVolumeDisplays() {
     document.getElementById('volumeTimerStartValue').textContent = 
         Math.round(volumeSettings.timerStart * 100) + '%';
