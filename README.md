@@ -2,7 +2,7 @@
 Focus Flow - a fun, engaging Pomodoro timer
 
 
-🔗 [Link to free CV Builder site ](https://meronmkifle.github.io/Focus-Flow/)
+🔗 [Link to free Focus Flow timer site ](https://meronmkifle.github.io/Focus-Flow/)
 
 
 ---
