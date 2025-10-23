@@ -1,5 +1,5 @@
 # Focus-Flow
-A Pomodoro timer is a productivity tool based on the Pomodoro Technique, which breaks work into focused intervals usually 25 minutes of work followed by a 5-minute break. After a few cycles, you take a longer break. It helps improve focus, manage time effectively, and prevent burnout.
+The Pomodoro Technique is a time management method developed by Francesco Cirillo. It involves breaking work into intervals, traditionally 25 minutes long, called "pomodoros," followed by short breaks. This technique helps improve focus and productivity by encouraging sustained concentration and regular rest. 
 
 **Focus Flow** – a simple Pomodoro timer to help you stay productive and take proper breaks. There are plenty of similar tools online, but I prefer having a simple, ad-free, and completely free option like this one !
 
